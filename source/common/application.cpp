@@ -241,7 +241,18 @@ int our::Application::run(int run_for_frames) {
 
     //Game loop
     while(!glfwWindowShouldClose(window)){
+        
         if(run_for_frames != 0 && current_frame >= run_for_frames) break;
+
+
+        int id = 9203144;
+        glClearColor(
+            ((id / 1) % 16) / 16.0,
+            ((id / 16) % 16) / 16.0,
+            ((id / 256) % 16) / 16.0,
+            1.0
+        );
+        glClear(GL_COLOR_BUFFER_BIT);
         glfwPollEvents(); // Read all the user events and call relevant callbacks.
 
         // Start a new ImGui frame
