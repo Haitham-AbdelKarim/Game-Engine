@@ -2,7 +2,7 @@
 #define SHADER_HPP
 
 #include <string>
-
+#include <iostream>
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -28,7 +28,8 @@ namespace our {
         bool link() const;
 
         void use() { 
-            glUseProgram(program);
+            // std::cout << "7amadaaaaaaa" << std::endl;
+            // glUseProgram(program);
         }
 
         GLuint getUniformLocation(const std::string &name){
