@@ -34,5 +34,6 @@ void main(){
     gl_Position = vec4(transformed_position, 1.0);
     vs_out.color = vec3(gl_VertexID == 0 ? 1.0 : 0.0, gl_VertexID == 1 ? 1.0 : 0.0, gl_VertexID == 2 ? 1.0 : 0.0);
 
+    // vs_out.color = vec3(1.0, 0.0, 0.0);
     
 }
