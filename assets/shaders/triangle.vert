@@ -31,9 +31,18 @@ void main(){
     vec3 transformed_position = vec3(scale.x * positions[gl_VertexID].x + translation.x,
                                      scale.y * positions[gl_VertexID].y + translation.y,
                                      positions[gl_VertexID].z);
-    gl_Position = vec4(transformed_position, 1.0);
-    vs_out.color = vec3(gl_VertexID == 0 ? 1.0 : 0.0, gl_VertexID == 1 ? 1.0 : 0.0, gl_VertexID == 2 ? 1.0 : 0.0);
 
-    // vs_out.color = vec3(1.0, 0.0, 0.0);
+
+    gl_Position = vec4(transformed_position, 1.0);
+
+
+    const vec3 colors[3] = vec3[3] (
+        vec3(1.0 , 0.0 , 0.0),
+        vec3(0.0 , 1.0 , 0.0),
+        vec3(0.0 , 0.0 , 1.0)
+    );
+
+    vs_out.color = colors[gl_VertexID];
+
     
 }

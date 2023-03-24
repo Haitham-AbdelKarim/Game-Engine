@@ -9,9 +9,9 @@ in Varyings {
 
 out vec4 frag_color;
 
-uniform vec4 red;
-uniform vec4 green;
-uniform vec4 blue;
+uniform vec4 red = vec4 (1.0 , 0.0 , 0.0 , 0.0);
+uniform vec4 green = vec4 (0.0 , 1.0 , 0.0 , 0.0);
+uniform vec4 blue = vec4 (0.0 , 0.0 , 1.0 , 0.0);
 
 
 // currently the shader just returns the interpalated color varying.
