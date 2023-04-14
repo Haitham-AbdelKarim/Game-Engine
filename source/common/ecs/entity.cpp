@@ -3,7 +3,7 @@
 #include "../components/component-deserializer.hpp"
 
 #include <glm/gtx/euler_angles.hpp>
-
+using namespace std;
 namespace our {
 
     // This function returns the transformation matrix from the entity's local space to the world space
@@ -12,10 +12,14 @@ namespace our {
     // its parent's parent's matrix and so on till you reach the root.
     glm::mat4 Entity::getLocalToWorldMatrix() const {
         //TODO: (Req 8) Write this function
+        cout << "getLocalToWorldMatrix 1" << endl;
         glm::mat4 m = localTransform.toMat4();
+        cout << "getLocalToWorldMatrix 2" << endl;
         Entity* ptr = parent;
+        cout << "getLocalToWorldMatrix 3" << endl;
         while (ptr)
         {
+            cout << "getLocalToWorldMatrix 4" << endl;
             m = ptr->localTransform.toMat4() * m;
             ptr = ptr->parent;
         }

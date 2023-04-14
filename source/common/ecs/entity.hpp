@@ -46,12 +46,13 @@ namespace our {
         T* getComponent(){
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // Return the component you found, or return null of nothing was found.
-            for(auto itr = components.begin(); itr != components.end(); itr++){
-                if (typeid(*itr) == typeid(T)) {
-                    return (T*)*itr;
-                }
+            for(auto& component : components){
+            T* ptr = dynamic_cast<T*>(component);
+            if(ptr) {
+                return ptr;
             }
-            return nullptr;
+        }
+        return nullptr;
         }
 
         // This template method dynami and returns a pointer to it

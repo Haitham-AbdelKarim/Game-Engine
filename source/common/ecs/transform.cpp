@@ -2,6 +2,9 @@
 #include "../deserialize-utils.hpp"
 
 #include <glm/gtx/euler_angles.hpp>
+#include <iostream>
+
+using namespace std;
 
 namespace our {
 
@@ -10,9 +13,13 @@ namespace our {
     // HINT: to convert euler angles to a rotation matrix, you can use glm::yawPitchRoll
     glm::mat4 Transform::toMat4() const {
         //TODO: (Req 3) Write this function
+        cout<<"toMat4 1"<<endl;
         glm::mat4 scaleingMat = glm::scale(glm::mat4(1.0f), scale);
+        cout<<"toMat4 2"<<endl;
         glm::mat4 rotationMat = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
+        cout<<"toMat4 3"<<endl;
         glm::mat4 translationMat = glm::translate(glm::mat4(1.0f), position);
+        cout<<"toMat4 4"<<endl;
         
         return (translationMat * rotationMat *  scaleingMat); 
     }
