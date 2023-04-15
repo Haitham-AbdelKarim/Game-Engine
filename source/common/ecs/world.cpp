@@ -17,9 +17,11 @@ namespace our {
             if(entityData.contains("children")){
                 //TODO: (Req 8) Recursively call this world's "deserialize" using the children data
                 // and the current entity as the parent
-                for(const auto& child : entityData["children"]){
-                    deserialize(child,newEntity);
-                }
+                // for(const auto& child : entityData["children"]){
+                //     this->deserialize(child, newEntity);
+                // }
+
+                this->deserialize(entityData["children"], newEntity);
             }
         }
     }

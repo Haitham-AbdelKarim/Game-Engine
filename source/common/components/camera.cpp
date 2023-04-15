@@ -23,11 +23,9 @@ namespace our {
 
     // Creates and returns the camera view matrix
     glm::mat4 CameraComponent::getViewMatrix() const {
-        cout<<"one"<<endl;
         auto owner = getOwner();
-        cout<<"two"<<endl;
         auto M = owner->getLocalToWorldMatrix();
-        cout<<"three"<<endl;
+        
         //TODO: (Req 8) Complete this function
         //HINT:
         // In the camera space:
@@ -45,9 +43,7 @@ namespace our {
         glm::vec4 center = M * glm::vec4(0.0f,0.0f,-1.0f,1.0f);
         glm::vec4 up = M * glm::vec4(0.0f,1.0f,0.0f,1.0f);
 
-        // glm::vec4 eye = glm::vec4(0.0f,0.0f,0.0f,1.0f) * M;
-        // glm::vec4 center =  glm::vec4(0.0f,0.0f,-1.0f,1.0f) * M;
-        // glm::vec4 up =  glm::vec4(0.0f,1.0f,0.0f,1.0f) * M;
+
 
         
         return (glm::lookAt(glm::vec3(eye) , glm::vec3(center) , glm::vec3(up)));
