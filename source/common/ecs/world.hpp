@@ -52,6 +52,7 @@ namespace our {
             //TODO: (Req 8) Remove and delete all the entities that have been marked for removal
             for(auto itr = markedForRemoval.begin(); itr != markedForRemoval.end(); itr++){
                 entities.erase(itr);
+                delete *itr;
             }
             markedForRemoval.clear();
         }
@@ -59,6 +60,10 @@ namespace our {
         //This deletes all entities in the world
         void clear(){
             //TODO: (Req 8) Delete all the entites and make sure that the containers are empty
+            for(auto itr = entities.begin(); itr != entities.end(); itr++){
+                markForRemoval(*itr);
+            }
+            deleteMarkedEntities();
             entities.clear();
         }
 

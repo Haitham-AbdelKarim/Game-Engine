@@ -39,13 +39,11 @@ namespace our {
         // - the up direction which is the vector (0,1,0) but after being transformed by M
         // then you can use glm::lookAt
 
-        glm::vec4 eye = M * glm::vec4(0.0f,0.0f,0.0f,1.0f);
-        glm::vec4 center = M * glm::vec4(0.0f,0.0f,-1.0f,1.0f);
-        glm::vec4 up = M * glm::vec4(0.0f,1.0f,0.0f,1.0f);
+        glm::vec4 eye = M * glm::vec4(0.0f , 0.0f , 0.0f , 1.0f);
+        glm::vec4 center = M * glm::vec4(0.0f , 0.0f , -1.0f ,1.0f);
+        glm::vec4 up = M * glm::vec4(0.0f , 1.0f , 0.0f , 1.0f);
 
 
-
-        
         return (glm::lookAt(glm::vec3(eye) , glm::vec3(center) , glm::vec3(up)));
         // return M;
     }
@@ -61,7 +59,7 @@ namespace our {
         float aspectRatio = (float) viewportSize.x / viewportSize.y ;
         float orthoWidth = orthoHeight * aspectRatio;
         if(cameraType == CameraType::ORTHOGRAPHIC){
-            return glm::ortho(-orthoWidth/2.0 , orthoWidth/2.0 , -orthoHeight/2.0 , orthoHeight/2.0);
+            return glm::ortho(-orthoWidth/2.0f , orthoWidth/2.0f , -orthoHeight/2.0f , orthoHeight/2.0f , near , far);
         }
         else{
             return glm::perspective(fovY,aspectRatio,near,far);

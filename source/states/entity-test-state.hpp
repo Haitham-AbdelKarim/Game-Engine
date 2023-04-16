@@ -49,7 +49,7 @@ class EntityTestState: public our::State {
         glm::ivec2 size = getApp()->getFrameBufferSize();
         //TODO: (Req 8) Change the following line to compute the correct view projection matrix 
         glm::mat4 V = camera->getViewMatrix();
-        glm::mat4 P = camera->getProjectionMatrix(glm::ivec2(size.x, size.y));
+        glm::mat4 P = camera->getProjectionMatrix(size);
         glm::mat4 VP = P * V;
 
         for(auto& entity : world.getEntities()){
@@ -61,8 +61,8 @@ class EntityTestState: public our::State {
             our::Material* material = meshRenderer->material;
             our::ShaderProgram* shader = material->shader;
             material->setup();
-            // shader->link();
-            shader->set("transform", (VP * (entity->localTransform).toMat4()));
+            
+            shader->set("transform", (VP * (entity->getLocalToWorldMatrix())));
             meshRenderer->mesh->draw();
         }
     }
