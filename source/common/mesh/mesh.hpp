@@ -67,7 +67,7 @@ public:
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-    // glBindVertexArray(0);
+    glBindVertexArray(0);
   }
 
   // this function should render the mesh
