@@ -16,13 +16,10 @@ void MeshRendererComponent::deserialize(const nlohmann::json &data) {
   // corresponding to the value is "key", you can use write:
   // data["key"].get<T>(). Look at "source/common/asset-loader.hpp" to know how
   // to use the static class AssetLoader. our::AssetLoader<Mesh> meshLoader;
-  // mesh = meshLoader.get(data["mesh"].get<std::string>());
+  
 
-  // our::AssetLoader<Material> materialLoader;
-  // material = materialLoader.get(data["material"].get<std::string>());
-
+  // Get the path of the asset file from the json file and pass it to the AssetLoader to be loaded.
   mesh = our::AssetLoader<our::Mesh>::get(data["mesh"].get<std::string>());
-  material =
-      our::AssetLoader<our::Material>::get(data["material"].get<std::string>());
+  material = our::AssetLoader<our::Material>::get(data["material"].get<std::string>());
 }
 } // namespace our
