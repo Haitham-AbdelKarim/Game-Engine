@@ -26,19 +26,23 @@ bool our::ShaderProgram::attach(const std::string &filename, GLenum type) const 
     // compilation error and print it so that you can know what is wrong with
     // the shader. The returned string will be empty if there is no errors.
 
+    // Create shader and pass type (vertex , fragment) as a prameter
     GLuint shader = glCreateShader(type);
+    // Load shader from source code
     glShaderSource(shader, 1, &sourceCStr, nullptr);
     glCompileShader(shader);
-    
+    // Check if there an error and print it
     std::string error = checkForShaderCompilationErrors(shader);
-
     if(!error.empty()){
         std::cerr << error << std::endl;
         return false;
     }
 
-
+    // Attach shader to the program
     glAttachShader(program, shader);
+
+    // Delete shader as we no longer need it after attaching to program
+    glDeleteShader(shader);
 
     //We return true if the compilation succeeded
     return true;
@@ -53,8 +57,10 @@ bool our::ShaderProgram::link() const {
     // linking error and print it so that you can know what is wrong with the
     // program. The returned string will be empty if there is no errors.
 
+    // Link the attached shaders to the program
     glLinkProgram(program);
 
+    // Check if there an error and print it
     std::string error = checkForLinkingErrors(program);
     if(!error.empty()){
         std::cerr << error << std::endl;
@@ -62,7 +68,7 @@ bool our::ShaderProgram::link() const {
     }
 
     glUseProgram(program);
-
+    
     return true;
 }
 

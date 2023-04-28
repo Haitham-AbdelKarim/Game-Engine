@@ -22,26 +22,30 @@ uniform vec2 scale = vec2(1.0, 1.0);
 
 void main(){
 
+    // The position of the triangle (Normalized)
     vec3 positions[3] = vec3[3] (
         vec3(-0.5, -0.5, 0.0),
         vec3( 0.5, -0.5, 0.0),
         vec3( 0.0,  0.5, 0.0)
     );
     
+    // Transform Triangle (Scale + Translate) using the uniform
+    // gl_VertexID holds the current ID of the vertex we're drawing
     vec3 transformed_position = vec3(scale.x * positions[gl_VertexID].x + translation.x,
                                      scale.y * positions[gl_VertexID].y + translation.y,
                                      positions[gl_VertexID].z);
 
-
+    // gl_Position that is the output vector of the vertex shader which will be the transformed_position
     gl_Position = vec4(transformed_position, 1.0);
 
-
+    // vertex color
     const vec3 colors[3] = vec3[3] (
         vec3(1.0 , 0.0 , 0.0),
         vec3(0.0 , 1.0 , 0.0),
         vec3(0.0 , 0.0 , 1.0)
     );
 
+    // send vertex color to fragment shader
     vs_out.color = colors[gl_VertexID];
 
     

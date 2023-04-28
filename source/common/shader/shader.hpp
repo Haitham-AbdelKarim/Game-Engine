@@ -27,16 +27,19 @@ namespace our {
 
         bool link() const;
 
+        // Use this program to Draw
         void use() { 
-            // std::cout << "7amadaaaaaaa" << std::endl;
-            // glUseProgram(program);
+            glUseProgram(program);
         }
 
+        // Get Uniform Location from shader with its name
         GLuint getUniformLocation(const std::string &name){
             GLint location = glGetUniformLocation(program, (GLchar*)name.c_str());
             
             return (GLuint)location;
         }
+
+        // Those functions are used to set uniform to value with different types
 
         void set(const std::string &uniform, GLfloat value) {
             glUniform1f(getUniformLocation(uniform), value);
@@ -70,8 +73,7 @@ namespace our {
 
         //Question: Why do we delete the copy constructor and assignment operator?
 
-        //To prevent objects of a class from being copied or assigned to each other         // completeeee
-
+        //To prevent objects of a class from being copied or assigned to each other
     };
 
 }
