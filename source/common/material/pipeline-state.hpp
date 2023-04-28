@@ -49,32 +49,35 @@ struct PipelineState {
   void setup() const {
     // TODO: (Req 4) Write this function
     if (faceCulling.enabled) {
-      glEnable(GL_CULL_FACE);
-      glCullFace(faceCulling.culledFace);
-      glFrontFace(faceCulling.frontFace);
+      glEnable(GL_CULL_FACE);             // enable face culling
+      glCullFace(faceCulling.culledFace); // set cull face
+      glFrontFace(faceCulling.frontFace); // set front face
 
     } else {
-      glDisable(GL_CULL_FACE);
+      glDisable(GL_CULL_FACE); // disable face culling
     }
     if (depthTesting.enabled) {
-      glEnable(GL_DEPTH_TEST);
-      glDepthFunc(depthTesting.function);
+      glEnable(GL_DEPTH_TEST);            // enable depth test
+      glDepthFunc(depthTesting.function); // set depth function
 
     } else {
-      glDisable(GL_DEPTH_TEST);
+      glDisable(GL_DEPTH_TEST); // disable depth test
     }
     if (blending.enabled) {
-      glEnable(GL_BLEND);
-      glBlendEquation(blending.equation);
-      glBlendFunc(blending.sourceFactor, blending.destinationFactor);
+      glEnable(GL_BLEND);                 // enable blending
+      glBlendEquation(blending.equation); // set blending equation
+      glBlendFunc(blending.sourceFactor,
+                  blending.destinationFactor); // set blending function
       glBlendColor(blending.constantColor.r, blending.constantColor.g,
-                   blending.constantColor.b, blending.constantColor.a);
+                   blending.constantColor.b,
+                   blending.constantColor.a); // set blending color
 
     } else {
-      glDisable(GL_BLEND);
+      glDisable(GL_BLEND); // disable blending
     }
-    glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a);
-    glDepthMask(depthMask);
+    glColorMask(colorMask.r, colorMask.g, colorMask.b,
+                colorMask.a); // set color mask
+    glDepthMask(depthMask);   // set depth mask
   }
 
   // Given a json object, this function deserializes a PipelineState structure
