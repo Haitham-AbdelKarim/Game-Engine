@@ -51,9 +51,9 @@ class EntityTestState : public our::State {
     glm::ivec2 size = getApp()->getFrameBufferSize();
     // TODO: (Req 8) Change the following line to compute the correct view
     // projection matrix
-    glm::mat4 V = camera->getViewMatrix();
-    glm::mat4 P = camera->getProjectionMatrix(glm::ivec2(size.x, size.y));
-    glm::mat4 VP = P * V;
+    glm::mat4 V = camera->getViewMatrix(); // Get the view matrix.
+    glm::mat4 P = camera->getProjectionMatrix(glm::ivec2(size.x, size.y)); // Get the projection matrix.
+    glm::mat4 VP = P * V; // Get the view projection matrix.
 
     for (auto &entity : world.getEntities()) {
       // For each entity, we look for a mesh renderer (if none was found, we
@@ -68,7 +68,9 @@ class EntityTestState : public our::State {
       our::Material *material = meshRenderer->material;
       our::ShaderProgram *shader = material->shader;
       material->setup();
-      // shader->link();
+
+      // The transform matrix is computed from the VP matrix and the local-to-world matrix of the entity.
+      // This transforms the mesh from local space to world space and then to clip space.
       shader->set("transform", (VP * entity->getLocalToWorldMatrix()));
       meshRenderer->mesh->draw();
     }
