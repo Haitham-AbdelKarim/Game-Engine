@@ -97,6 +97,7 @@ namespace our {
             //TODO: (Req 8) Go through the components list and find the given component "component".
             // If found, delete the found component and remove it from the components list
             components.remove(component);
+            if (component)
             delete component;
         }
 

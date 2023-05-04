@@ -174,7 +174,7 @@ void ForwardRenderer::render(World *world) {
   //  you solve this one
   glm::vec3 cameraForward =
       glm::vec3(camera->getOwner()->getLocalToWorldMatrix() *
-                glm::vec4(0.0f, 0.0f, -1.0f, 1.0f)); // get camera forward
+                glm::vec4(0.0f, 0.0f, -1.0f, 0.0f)); // get camera forward
   std::sort(
       transparentCommands.begin(), transparentCommands.end(),
       [cameraForward](const RenderCommand &first, const RenderCommand &second) {
