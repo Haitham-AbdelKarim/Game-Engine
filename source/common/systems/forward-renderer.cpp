@@ -136,7 +136,9 @@ void ForwardRenderer::destroy() {
   }
 }
 
-void ForwardRenderer::render(World *world) {
+void ForwardRenderer::render(World *world,
+                             reactphysics3d::PhysicsWorld *phyWorld,
+                             reactphysics3d::PhysicsCommon *physicsCommon) {
   // First of all, we search for a camera and for all the mesh renderers
   CameraComponent *camera = nullptr;
   opaqueCommands.clear();
@@ -162,6 +164,13 @@ void ForwardRenderer::render(World *world) {
         opaqueCommands.push_back(command);
       }
     }
+    if (auto rigidBody = entity->getComponent<RigidBodyComponent>();
+        rigidBody) {
+      if (!rigidBody->isInitialized) {
+        rigidBody->setup(phyWorld, entity->getLocalToWorldMatrix(),
+                         physicsCommon);
+      }
+    }
   }
 
   // If there is no camera, we return (we cannot render without a camera)
@@ -179,21 +188,11 @@ void ForwardRenderer::render(World *world) {
       transparentCommands.begin(), transparentCommands.end(),
       [cameraForward](const RenderCommand &first, const RenderCommand &second) {
         // TODO: (Req 9) Finish this function
-        //  HINT: the following return should return true "first" should be
-        //  drawn before "second".
-        glm::vec3 v1 =
-            (first.center -
-             cameraForward); // get the vector between first and cameraForward
-        glm::vec3 v2 =
-            (second.center -
-             cameraForward); // get the vector between second and cameraForward
-        double l1 = pow(v1.x, 2) + pow(v1.y, 2) +
-                    pow(v1.z, 2); // get the square of euclidean distance
-                                  // between first and cameraForward
-        double l2 = pow(v2.x, 2) + pow(v2.y, 2) +
-                    pow(v2.z, 2); // get the square of euclidean distance
-                                  // between second and cameraForward
-        return (l1 > l2);         // compare the two distances
+        //  HINT: the following return should return true "first"
+        //  should be drawn before "second".
+        return (glm::dot(cameraForward, first.center) >
+                glm::dot(cameraForward,
+                         second.center)); // compare the two distances
       });
 
   // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
@@ -242,10 +241,14 @@ void ForwardRenderer::render(World *world) {
     this->skyMaterial->setup();
 
     // TODO: (Req 10) Get the camera position
-    glm::mat4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix();
-    // TODO: (Req 10) Create a model matrix for the sy such that it always
-    // follows the camera (sky sphere center = camera position)
-    glm::mat4 M = cameraPosition;
+    glm::vec4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() *
+                               glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    // TODO: (Req 10) Create a model matrix for the sy such
+    // that it always follows the camera (sky sphere center =
+    // camera position)
+    glm::mat4 M = glm::mat4(
+        1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        cameraPosition.x, cameraPosition.y, cameraPosition.z, cameraPosition.w);
     // TODO: (Req 10) We want the sky to be drawn behind everything (in
     // NDC space, z=1)
     //  We can acheive the is by multiplying by an extra matrix after

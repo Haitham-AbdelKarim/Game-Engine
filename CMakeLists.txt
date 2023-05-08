@@ -39,6 +39,8 @@ set(COMMON_SOURCES
         source/common/asset-loader.cpp
         source/common/asset-loader.hpp
         source/common/deserialize-utils.hpp
+
+        source/common/utils.hpp
         
         source/common/shader/shader.hpp
         source/common/shader/shader.cpp
@@ -78,11 +80,17 @@ set(COMMON_SOURCES
         source/common/components/movement.hpp
         source/common/components/movement.cpp
         source/common/components/component-deserializer.hpp
+        source/common/components/rigid-body.hpp
+        source/common/components/rigid-body.cpp
+        source/common/components/player.hpp
+        source/common/components/player.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
         source/common/systems/free-camera-controller.hpp
         source/common/systems/movement.hpp
+        source/common/systems/rigid-body.hpp
+        source/common/systems/player-controller.hpp
 )
 
 # Define the directories in which to search for the included headers
@@ -118,4 +126,5 @@ set(STATES_SOURCES
 # Each target compiles one example source file and the common & vendor source files
 # Then we link GLFW with each target
 add_executable(GAME_APPLICATION source/main.cpp ${STATES_SOURCES} ${COMMON_SOURCES} ${VENDOR_SOURCES})
-target_link_libraries(GAME_APPLICATION glfw)
+target_link_libraries(GAME_APPLICATION glfw "${CMAKE_CURRENT_SOURCE_DIR}/vendor/r3p/lib/reactphysics3d.lib")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vendor/r3p/include")
