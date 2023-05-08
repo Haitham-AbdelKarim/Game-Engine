@@ -128,6 +128,19 @@
 		},
 		"world": [
 			{
+				// "position" : [0,0,0],
+				// "direction" : [0,0,0],
+				"components":[
+					{
+						"type" : "light",
+						"lightType" : 0,
+						"color" : [255,0,0], 
+     					"attenuation" : [0,0,0],
+     					"cone_angles" : [1.57,1.57]
+					}
+				]
+			},
+			{
 				"position": [0, 20, 10],
 				"components": [
 					{

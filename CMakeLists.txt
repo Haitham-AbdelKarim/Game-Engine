@@ -84,6 +84,8 @@ set(COMMON_SOURCES
         source/common/components/rigid-body.cpp
         source/common/components/player.hpp
         source/common/components/player.cpp
+        source/common/components/light.hpp
+        source/common/components/light.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp

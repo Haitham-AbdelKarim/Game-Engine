@@ -7,6 +7,7 @@
 #include "movement.hpp"
 #include "player.hpp"
 #include "rigid-body.hpp"
+#include "light.hpp"
 
 
 namespace our {
@@ -31,6 +32,8 @@ inline void deserializeComponent(const nlohmann::json &data, Entity *entity) {
     component = entity->addComponent<RigidBodyComponent>();
   } else if (type == PlayerComponent::getID()) {
     component = entity->addComponent<PlayerComponent>();
+  } else if (type == LightComponent::getID()) {
+    component = entity->addComponent<LightComponent>();
   }
   if (component)
     component->deserialize(data);
