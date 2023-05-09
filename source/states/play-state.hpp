@@ -10,6 +10,7 @@
 #include <systems/player-controller.hpp>
 #include <systems/rigid-body.hpp>
 #include <utils.hpp>
+#include <systems/light-controller.hpp>
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
@@ -20,6 +21,7 @@ class Playstate : public our::State {
   our::MovementSystem movementSystem;
   our::RigidBodySystem rigidBodySystem;
   our::PlayerControllerSystem playerControllerSystem;
+  our::LightSystem lightSystem;
 
   reactphysics3d::PhysicsCommon physicsCommon;
   const double timeStep = 1.0f / 60.0f;
@@ -51,6 +53,7 @@ class Playstate : public our::State {
   void onDraw(double deltaTime) override {
     // Here, we just run a bunch of systems to control the world logic
     movementSystem.update(&world, (float)deltaTime);
+    lightSystem.update(&world,(float)deltaTime);
     // And finally we use the renderer system to draw the scene
     renderer.render(&world, worldPhysics, &physicsCommon);
     cameraController.update(&world, (float)deltaTime);

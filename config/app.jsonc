@@ -95,8 +95,8 @@
 					"sampler": "default"
 				},
 				"monkey": {
-					"type": "textured",
-					"shader": "textured",
+					"type": "Lit Material",
+					"shader": "light",
 					"pipelineState": {
 						"faceCulling": {
 							"enabled": false
@@ -107,7 +107,14 @@
 					},
 					"tint": [1, 1, 1, 1],
 					"texture": "monkey",
-					"sampler": "default"
+					"sampler": "default",
+					"albedo" : "assets/textures/albedo.jpg",
+					"roughness" : "assets/textures/roughness.jpg",
+					"specular" : "assets/textures/specular.jpg",
+					"ambient_occlusion" : "assets/textures/specular.jpg",
+					"emission" : "assets/textures/specular.jpg"
+
+
 				},
 				"moon": {
 					"type": "textured",
@@ -128,10 +135,11 @@
 		},
 		"world": [
 			{
-				// "position" : [0,0,0],
-				// "direction" : [0,0,0],
+				"position" : [0,0,0],
+				"rotation" : [0,0,0],
 				"components":[
 					{
+						"direction" : [0,0,-1],
 						"type" : "light",
 						"lightType" : 0,
 						"color" : [255,0,0], 

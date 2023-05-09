@@ -4,6 +4,7 @@
 #include "../texture/texture2d.hpp"
 #include "../texture/sampler.hpp"
 #include "../shader/shader.hpp"
+#include "../ecs/entity.hpp"
 
 #include <glm/vec4.hpp>
 #include <json/json.hpp>
@@ -53,12 +54,25 @@ namespace our {
         void deserialize(const nlohmann::json& data) override;
     };
 
+    class LitMaterial : public TexturedMaterial{
+        public:
+            Texture2D* albedo;
+            Texture2D* specular;
+            Texture2D* roughness;
+            Texture2D* ambient_occlusion;
+            Texture2D* emission;
+        void setup(glm::mat4 transform , glm::mat4 VP , glm::vec3 cameraPosition) const;
+        void deserialize(const nlohmann::json& data) override;
+    };
+
     // This function returns a new material instance based on the given type
     inline Material* createMaterialFromType(const std::string& type){
         if(type == "tinted"){
             return new TintedMaterial();
         } else if(type == "textured"){
             return new TexturedMaterial();
+        } else if(type == "Lit Material"){
+            return new LitMaterial();
         } else {
             return new Material();
         }

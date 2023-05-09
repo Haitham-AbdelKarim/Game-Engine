@@ -163,6 +163,7 @@ void ForwardRenderer::render(World *world,
         // Otherwise, we add it to the opaque command list
         opaqueCommands.push_back(command);
       }
+     
     }
     if (auto rigidBody = entity->getComponent<RigidBodyComponent>();
         rigidBody) {
@@ -172,6 +173,8 @@ void ForwardRenderer::render(World *world,
       }
     }
   }
+
+
 
   // If there is no camera, we return (we cannot render without a camera)
   if (camera == nullptr)
@@ -226,10 +229,21 @@ void ForwardRenderer::render(World *world,
   //  Don't forget to set the "transform" uniform to be equal the
   //  model-view-projection matrix for each render command
   //  loop over all opaque objects
+
+    // TODO: (Req 10) Get the camera position
+    glm::vec4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() *
+                               glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
   for (auto x : opaqueCommands) {
     our::Material *material = x.material;          // A pointer to the material
     our::ShaderProgram *shader = material->shader; // A pointer to the shader
-    material->setup();                             // setup the material
+    LitMaterial *litMaterial = dynamic_cast<LitMaterial*>(material);
+    if(litMaterial){
+      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition));      
+    }
+    else{
+      material->setup();                             // setup the material
+    }
     shader->set("transform",
                 (VP * x.localToWorld)); // set the transform to the shader
     x.mesh->draw();                     // draw the mesh
@@ -240,9 +254,7 @@ void ForwardRenderer::render(World *world,
     // TODO: (Req 10) setup the sky material
     this->skyMaterial->setup();
 
-    // TODO: (Req 10) Get the camera position
-    glm::vec4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() *
-                               glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
     // TODO: (Req 10) Create a model matrix for the sy such
     // that it always follows the camera (sky sphere center =
     // camera position)
@@ -270,10 +282,16 @@ void ForwardRenderer::render(World *world,
   for (auto x : transparentCommands) {
     our::Material *material = x.material;          // A pointer to the material
     our::ShaderProgram *shader = material->shader; // A pointer to the shader
-    material->setup();                             // setup the material
+    LitMaterial *litMaterial = dynamic_cast<LitMaterial*>(material);
+    if(litMaterial){
+      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition));      
+    }
+    else{
+      material->setup();                             // setup the material
+    }
     shader->set("transform",
                 (VP * x.localToWorld)); // set the transform to the shader
-    x.mesh->draw();                     // draw the mesh
+    x.mesh->draw();       // draw the mesh
   }
 
   // If there is a postprocess material, apply postprocessing

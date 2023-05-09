@@ -2,6 +2,7 @@
 
 #include "../asset-loader.hpp"
 #include "deserialize-utils.hpp"
+#include "../ecs/entity.hpp"
 
 namespace our {
 
@@ -67,6 +68,57 @@ namespace our {
         alphaThreshold = data.value("alphaThreshold", 0.0f);
         texture = AssetLoader<Texture2D>::get(data.value("texture", ""));
         sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
+    }
+
+    void LitMaterial::setup(glm::mat4 transform , glm::mat4 VP , glm::vec3 cameraPosition) const {
+        TexturedMaterial::setup();
+        glm::mat4 M = transform;
+        glm::mat4 M_IT = glm::transpose(glm::inverse(M));
+
+        shader->set("M", M);
+        shader->set("M_IT", M);
+        shader->set("VP", VP);
+        shader->set("camera_position", cameraPosition);
+
+        glActiveTexture(GL_TEXTURE1);
+        albedo->bind();
+        sampler->bind(1);
+        shader->set("material.albedo",1);
+
+        glActiveTexture(GL_TEXTURE2);
+        specular->bind();
+        sampler->bind(2);
+        shader->set("material.specular",2);
+
+        glActiveTexture(GL_TEXTURE3);
+        roughness->bind();
+        sampler->bind(3);
+        shader->set("material.roughness",3);
+
+        glActiveTexture(GL_TEXTURE4);
+        ambient_occlusion->bind();
+        sampler->bind(4);
+        shader->set("material.ambient_occlusion",4);
+
+        glActiveTexture(GL_TEXTURE5);
+        emission->bind();
+        sampler->bind(5);
+        shader->set("material.emissive",5);
+
+    }
+
+
+    // This function read the material data from a json object
+    void LitMaterial::deserialize(const nlohmann::json& data){
+        TintedMaterial::deserialize(data);
+        if(!data.is_object()) return;
+        alphaThreshold = data.value("alphaThreshold", 0.0f);
+        albedo = AssetLoader<Texture2D>::get(data.value("albedo", ""));
+        specular = AssetLoader<Texture2D>::get(data.value("specular", ""));
+        roughness = AssetLoader<Texture2D>::get(data.value("roughness", ""));
+        ambient_occlusion = AssetLoader<Texture2D>::get(data.value("ambient_occlusion", ""));
+        emission = AssetLoader<Texture2D>::get(data.value("emission", ""));
+
     }
 
 }

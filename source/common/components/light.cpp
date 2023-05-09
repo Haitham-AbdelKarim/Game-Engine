@@ -12,5 +12,6 @@ void LightComponent::deserialize(const nlohmann::json &data) {
   color = data.value("color", color);
   attenuation = data.value("attenuation", attenuation);
   cone_angles = data.value("cone_angles", cone_angles);
+  direction = data.value("direction", direction);
 }
 } // namespace our

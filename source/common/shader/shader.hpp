@@ -28,8 +28,7 @@ namespace our {
         bool link() const;
 
         void use() { 
-            // std::cout << "7amadaaaaaaa" << std::endl;
-            // glUseProgram(program);
+            glUseProgram(program);
         }
 
         GLuint getUniformLocation(const std::string &name){

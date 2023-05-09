@@ -93,6 +93,7 @@ set(COMMON_SOURCES
         source/common/systems/movement.hpp
         source/common/systems/rigid-body.hpp
         source/common/systems/player-controller.hpp
+        source/common/systems/light-controller.hpp
 )
 
 # Define the directories in which to search for the included headers
