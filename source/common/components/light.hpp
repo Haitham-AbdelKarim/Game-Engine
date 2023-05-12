@@ -16,12 +16,12 @@ public:
     glm::vec3 attenuation  = glm::vec3(0,0,0);
     glm::vec2 cone_angles  = glm::vec2(0.5f*glm::quarter_pi<float>(),0.5f*glm::quarter_pi<float>());
     glm::vec3 direction = glm::vec3(0,0,-1);
-    int type = 0;
+    int lightType = 0;
 
-  // The ID of this component type is "Light"
-  static std::string getID() { return "Light"; }
+    // The ID of this component type is "Light"
+    static std::string getID() { return "Light"; }
 
-  void deserialize(const nlohmann::json &data) override;
+    void deserialize(const nlohmann::json &data) override;
 };
 
 } // namespace our

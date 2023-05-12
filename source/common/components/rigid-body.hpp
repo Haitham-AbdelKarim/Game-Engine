@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ecs/component.hpp"
+#include <ecs/entity.hpp>
 #include <string>
 #include <utils.hpp>
 
@@ -22,7 +23,7 @@ public:
   // The ID of this component type is "Movement"
   static std::string getID() { return "Rigid Body"; }
   // initialize
-  void setup(reactphysics3d::PhysicsWorld *world, glm::mat4 transform,
+  void setup(reactphysics3d::PhysicsWorld *world, Entity *entity,
              reactphysics3d::PhysicsCommon *physicsCommon);
 
   // Reads linearVelocity & angularVelocity from the given json object

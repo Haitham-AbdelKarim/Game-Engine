@@ -12,6 +12,7 @@
 #include <utils.hpp>
 #include <vector>
 
+
 namespace our {
 
 // The render command stores command that tells the renderer that it should draw
@@ -55,7 +56,7 @@ public:
   void destroy();
   // This function should be called every frame to draw the given world
   void render(World *world, reactphysics3d::PhysicsWorld *phyWorld,
-              reactphysics3d::PhysicsCommon *physicsCommon);
+              reactphysics3d::PhysicsCommon *physicsCommon, Light* light_list);
 };
 
 } // namespace our

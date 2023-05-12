@@ -138,7 +138,8 @@ void ForwardRenderer::destroy() {
 
 void ForwardRenderer::render(World *world,
                              reactphysics3d::PhysicsWorld *phyWorld,
-                             reactphysics3d::PhysicsCommon *physicsCommon) {
+                             reactphysics3d::PhysicsCommon *physicsCommon,
+                             Light *light_list) {
   // First of all, we search for a camera and for all the mesh renderers
   CameraComponent *camera = nullptr;
   opaqueCommands.clear();
@@ -163,18 +164,15 @@ void ForwardRenderer::render(World *world,
         // Otherwise, we add it to the opaque command list
         opaqueCommands.push_back(command);
       }
-     
     }
     if (auto rigidBody = entity->getComponent<RigidBodyComponent>();
         rigidBody) {
       if (!rigidBody->isInitialized) {
-        rigidBody->setup(phyWorld, entity->getLocalToWorldMatrix(),
+        rigidBody->setup(phyWorld, entity,
                          physicsCommon);
       }
     }
   }
-
-
 
   // If there is no camera, we return (we cannot render without a camera)
   if (camera == nullptr)
@@ -230,30 +228,29 @@ void ForwardRenderer::render(World *world,
   //  model-view-projection matrix for each render command
   //  loop over all opaque objects
 
-    // TODO: (Req 10) Get the camera position
-    glm::vec4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() *
-                               glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
+  // TODO: (Req 10) Get the camera position
+  glm::vec4 cameraPosition = camera->getOwner()->getLocalToWorldMatrix() *
+                             glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
   for (auto x : opaqueCommands) {
     our::Material *material = x.material;          // A pointer to the material
     our::ShaderProgram *shader = material->shader; // A pointer to the shader
-    LitMaterial *litMaterial = dynamic_cast<LitMaterial*>(material);
-    if(litMaterial){
-      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition));      
+    our::LitMaterial *litMaterial = dynamic_cast<our::LitMaterial *>(material);
+    if (litMaterial) {
+      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition),
+                         light_list);
+    } else {
+      material->setup(); // setup the material
+      shader->set("transform",
+                  (VP * x.localToWorld)); // set the transform to the shader
     }
-    else{
-      material->setup();                             // setup the material
-    }
-    shader->set("transform",
-                (VP * x.localToWorld)); // set the transform to the shader
-    x.mesh->draw();                     // draw the mesh
+
+    x.mesh->draw(); // draw the mesh
   }
 
   // If there is a sky material, draw the sky
   if (this->skyMaterial) {
     // TODO: (Req 10) setup the sky material
     this->skyMaterial->setup();
-
 
     // TODO: (Req 10) Create a model matrix for the sy such
     // that it always follows the camera (sky sphere center =
@@ -282,16 +279,17 @@ void ForwardRenderer::render(World *world,
   for (auto x : transparentCommands) {
     our::Material *material = x.material;          // A pointer to the material
     our::ShaderProgram *shader = material->shader; // A pointer to the shader
-    LitMaterial *litMaterial = dynamic_cast<LitMaterial*>(material);
-    if(litMaterial){
-      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition));      
+    our::LitMaterial *litMaterial = dynamic_cast<our::LitMaterial *>(material);
+    if (litMaterial) {
+      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition),
+                         light_list);
+    } else {
+      material->setup(); // setup the material
+      shader->set("transform",
+                  (VP * x.localToWorld)); // set the transform to the shader
     }
-    else{
-      material->setup();                             // setup the material
-    }
-    shader->set("transform",
-                (VP * x.localToWorld)); // set the transform to the shader
-    x.mesh->draw();       // draw the mesh
+
+    x.mesh->draw(); // draw the mesh
   }
 
   // If there is a postprocess material, apply postprocessing
@@ -307,6 +305,8 @@ void ForwardRenderer::render(World *world,
     // draw
     glDrawArrays(GL_TRIANGLES, 0, 3);
   }
+
+  delete[] light_list;
 }
 
 } // namespace our

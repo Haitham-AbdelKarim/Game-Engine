@@ -25,6 +25,7 @@ public:
   float speedupFactor =
       5.0f; // A multiplier for the positionSensitivity if "Left Shift" is held.
   // The ID of this component type is "Player"
+  bool onTheGround = true;
   static std::string getID() { return "Player"; }
 
   // Reads linearVelocity & angularVelocity from the given json object

@@ -54,6 +54,15 @@ namespace our {
         void deserialize(const nlohmann::json& data) override;
     };
 
+    struct Light {
+      int type;
+      glm::vec3 position;
+      glm::vec3 direction;
+      glm::vec3 color;
+      glm::vec3 attenuation;
+      glm::vec2 cone_angles;
+    };
+
     class LitMaterial : public TexturedMaterial{
         public:
             Texture2D* albedo;
@@ -61,7 +70,7 @@ namespace our {
             Texture2D* roughness;
             Texture2D* ambient_occlusion;
             Texture2D* emission;
-        void setup(glm::mat4 transform , glm::mat4 VP , glm::vec3 cameraPosition) const;
+        void setup(glm::mat4 transform , glm::mat4 VP , glm::vec3 cameraPosition, Light *light_list) const;
         void deserialize(const nlohmann::json& data) override;
     };
 

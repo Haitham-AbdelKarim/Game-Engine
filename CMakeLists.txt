@@ -94,6 +94,8 @@ set(COMMON_SOURCES
         source/common/systems/rigid-body.hpp
         source/common/systems/player-controller.hpp
         source/common/systems/light-controller.hpp
+        source/common/systems/physics-events-listener.hpp
+        source/common/systems/collision-handler.hpp
 )
 
 # Define the directories in which to search for the included headers

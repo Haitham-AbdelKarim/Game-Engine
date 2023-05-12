@@ -3,6 +3,15 @@
 #include <glm/glm.hpp>
 #include <reactphysics3d/reactphysics3d.h>
 
+struct Light {
+  int type;
+  glm::vec3 position;
+  glm::vec3 direction;
+  glm::vec3 color;
+  glm::vec3 attenuation;
+  glm::vec2 cone_angles;
+};
+
 static glm::vec3 convert(reactphysics3d::Vector3 data) {
   return glm::vec3(data.x, data.y, data.z);
 }
@@ -18,8 +27,10 @@ static reactphysics3d::Matrix3x3 convert(glm::mat3 data) {
       convert(glm::normalize(glm::vec3(data[0][1], data[1][1], data[2][1])));
   reactphysics3d::Vector3 row2 =
       convert(glm::normalize(glm::vec3(data[0][2], data[1][2], data[2][2])));
-  return reactphysics3d::Matrix3x3(row0.x, row0.y, row0.z, row1.x, row1.y,
-                                   row1.z, row2.x, row2.y, row2.z);
+  // return reactphysics3d::Matrix3x3(row0.x, row0.y, row0.z, row1.x, row1.y,
+  //                                  row1.z, row2.x, row2.y, row2.z);
+  return reactphysics3d::Matrix3x3(row0.x, row1.x, row2.x, row0.y, row1.y,
+                                   row2.y, row0.z, row1.z, row2.z);
 }
 
 static reactphysics3d::Transform convert(glm::mat4 transform) {

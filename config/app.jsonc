@@ -22,6 +22,10 @@
 				"textured": {
 					"vs": "assets/shaders/textured.vert",
 					"fs": "assets/shaders/textured.frag"
+				},
+				"light": {
+					"vs": "assets/shaders/light.vert",
+					"fs": "assets/shaders/light.frag"
 				}
 			},
 			"textures": {
@@ -29,7 +33,12 @@
 				"grass": "assets/textures/grass_ground_d.jpg",
 				"wood": "assets/textures/wood.jpg",
 				"glass": "assets/textures/glass-panels.png",
-				"monkey": "assets/textures/monkey.png"
+				"monkey": "assets/textures/monkey.png",
+				"albedo": "assets/textures/albedo.jpg",
+				"roughness": "assets/textures/roughness.jpg",
+				"specular": "assets/textures/specular.jpg",
+				"ambient_occlusion": "assets/textures/specular.jpg",
+				"emission": "assets/textures/specular.jpg"
 			},
 			"meshes": {
 				"cube": "assets/models/cube.obj",
@@ -108,13 +117,11 @@
 					"tint": [1, 1, 1, 1],
 					"texture": "monkey",
 					"sampler": "default",
-					"albedo" : "assets/textures/albedo.jpg",
-					"roughness" : "assets/textures/roughness.jpg",
-					"specular" : "assets/textures/specular.jpg",
-					"ambient_occlusion" : "assets/textures/specular.jpg",
-					"emission" : "assets/textures/specular.jpg"
-
-
+					"albedo": "albedo",
+					"roughness": "roughness",
+					"specular": "specular",
+					"ambient_occlusion": "ambient_occlusion",
+					"emission": "emission"
 				},
 				"moon": {
 					"type": "textured",
@@ -135,21 +142,23 @@
 		},
 		"world": [
 			{
-				"position" : [0,0,0],
-				"rotation" : [0,0,0],
-				"components":[
+				"position": [0, 0, 0],
+				"rotation": [0, 0, 0],
+				"components": [
 					{
-						"direction" : [0,0,-1],
-						"type" : "light",
-						"lightType" : 0,
-						"color" : [255,0,0], 
-     					"attenuation" : [0,0,0],
-     					"cone_angles" : [1.57,1.57]
+						"direction": [0, 0, -1],
+						"type": "Light",
+						"lightType": 0,
+						"color": [0, 0, 255],
+						"attenuation": [0, 0, 0],
+						"cone_angles": [1.57, 1.57]
 					}
 				]
 			},
 			{
 				"position": [0, 20, 10],
+				"rotation": [0, 0, 0],
+				"name": "player",
 				"components": [
 					{
 						"type": "Camera"
@@ -184,19 +193,19 @@
 			},
 			{
 				"rotation": [-45, 0, 0],
-				"position": [0, 50, 0],
+				"position": [0, 20, 0],
 
 				"components": [
 					{
 						"type": "Mesh Renderer",
 						"mesh": "monkey",
 						"material": "monkey"
-					},
-					{
-						"type": "Rigid Body",
-						"collide": true,
-						"collider Scale": [0.5, 0.5, 0.5]
 					}
+					// {
+					// 	"type": "Rigid Body",
+					// 	"collide": true,
+					// 	"collider Scale": [0.5, 0.5, 0.5]
+					// }
 					// {
 					//     "type": "Movement",
 					//     "linearVelocity": [0, 0.1, 0],
@@ -205,6 +214,7 @@
 				]
 			},
 			{
+				"name": "ground",
 				"position": [0, -1, 0],
 				"rotation": [-90, 0, 0],
 				"scale": [20, 20, 1],
@@ -218,7 +228,7 @@
 						"type": "Rigid Body",
 						"Rigid Body Type": "static",
 						"collide": true,
-						"collider Scale": [40, 40, 0.2]
+						"collider Scale": [20, 20, 0.2]
 					}
 				]
 			},
@@ -295,6 +305,7 @@
 				]
 			},
 			{
+				"name":"obstacle",
 				"position": [0, 1, 2],
 				"rotation": [0, 0, 0],
 				"scale": [2, 2, 2],
@@ -361,6 +372,7 @@
 				]
 			},
 			{
+				"name": "moon",
 				"position": [0, 10, 0],
 				"rotation": [45, 45, 0],
 				"scale": [5, 5, 5],

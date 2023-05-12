@@ -6,11 +6,12 @@
 #include <ecs/world.hpp>
 #include <systems/forward-renderer.hpp>
 #include <systems/free-camera-controller.hpp>
+#include <systems/light-controller.hpp>
 #include <systems/movement.hpp>
+#include <systems/physics-events-listener.hpp>
 #include <systems/player-controller.hpp>
 #include <systems/rigid-body.hpp>
 #include <utils.hpp>
-#include <systems/light-controller.hpp>
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
@@ -22,6 +23,7 @@ class Playstate : public our::State {
   our::RigidBodySystem rigidBodySystem;
   our::PlayerControllerSystem playerControllerSystem;
   our::LightSystem lightSystem;
+  our::PhysicsEventsListener physicsEventsListener;
 
   reactphysics3d::PhysicsCommon physicsCommon;
   const double timeStep = 1.0f / 60.0f;
@@ -48,14 +50,14 @@ class Playstate : public our::State {
     auto size = getApp()->getFrameBufferSize();
     renderer.initialize(size, config["renderer"]);
     worldPhysics = physicsCommon.createPhysicsWorld();
+    worldPhysics->setEventListener(&physicsEventsListener);
   }
-
   void onDraw(double deltaTime) override {
     // Here, we just run a bunch of systems to control the world logic
     movementSystem.update(&world, (float)deltaTime);
-    lightSystem.update(&world,(float)deltaTime);
+    our::Light *light_list = lightSystem.getlights(&world, (float)deltaTime);
     // And finally we use the renderer system to draw the scene
-    renderer.render(&world, worldPhysics, &physicsCommon);
+    renderer.render(&world, worldPhysics, &physicsCommon, light_list);
     cameraController.update(&world, (float)deltaTime);
     playerControllerSystem.update(&world, (float)deltaTime);
 

@@ -160,12 +160,19 @@ public:
       velocity -= glm::normalize(lock_y * right);
     float numOfColliders =
         rigidbody->rigidbody->getCollider(0)->getCollisionCategoryBits();
-    if (app->getKeyboard().isPressed(GLFW_KEY_SPACE))
-      rigidbody->rigidbody->applyLocalForceAtCenterOfMass(
-          reactphysics3d::Vector3(0.0f, 50.0f, 0.0f));
+    if (app->getKeyboard().isPressed(GLFW_KEY_SPACE) &&
+        entity->getComponent<PlayerComponent>()->onTheGround) {
+      rigidbody->rigidbody->applyWorldForceAtCenterOfMass(
+          reactphysics3d::Vector3(0.0f, 400.0f, 0.0f));
+      entity->getComponent<PlayerComponent>()->onTheGround = false;
+    }
 
-    if (rigidbody) {
+    std::cout << entity->getComponent<PlayerComponent>()->onTheGround;
 
+    if (rigidbody && entity->getComponent<PlayerComponent>()->onTheGround) {
+      rigidbody->rigidbody->setAngularLockAxisFactor(
+          reactphysics3d::Vector3(0, 0, 0));
+      rigidbody->rigidbody->getCollider(0)->getMaterial().setBounciness(0);
       reactphysics3d::Vector3 temp = convert(velocity) * speed;
       temp.y = rigidbody->rigidbody->getLinearVelocity().y;
 

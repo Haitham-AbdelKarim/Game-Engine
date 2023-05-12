@@ -6,9 +6,9 @@
 namespace our {
 // initialize
 void RigidBodyComponent::setup(reactphysics3d::PhysicsWorld *world,
-                               glm::mat4 transform,
+                               Entity *entity,
                                reactphysics3d::PhysicsCommon *physicsCommon) {
-  rigidbody = world->createRigidBody(convert(transform));
+  rigidbody = world->createRigidBody(convert(entity->getLocalToWorldMatrix()));
   if (rigidBodyType == "static") {
     rigidbody->setType(rp3d::BodyType::STATIC);
   } else if (rigidBodyType == "kinematic") {
@@ -22,6 +22,7 @@ void RigidBodyComponent::setup(reactphysics3d::PhysicsWorld *world,
     }
   }
   isInitialized = true;
+  rigidbody->setUserData(entity);
 }
 // Reads linearVelocity & angularVelocity from the given json object
 void RigidBodyComponent::deserialize(const nlohmann::json &data) {
