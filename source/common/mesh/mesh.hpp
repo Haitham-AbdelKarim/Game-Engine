@@ -79,6 +79,14 @@ public:
 
     glBindVertexArray(0); // unbind the vertix array object
   }
+  Mesh(Mesh & copied)
+  {
+   // rigidbody= new reactphysics3d::RigidBody(*copied.rigidbody);
+    VBO = copied.VBO;
+    EBO=copied.EBO;
+    VAO=copied.VAO;
+    elementCount=copied.elementCount;
+  }
 
   // this function should render the mesh
   void draw() {

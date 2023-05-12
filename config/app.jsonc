@@ -200,12 +200,12 @@
 						"type": "Mesh Renderer",
 						"mesh": "monkey",
 						"material": "monkey"
+					},
+					{
+						"type": "Rigid Body",
+						"collide": true,
+						"collider Scale": [0.5, 0.5, 0.5]
 					}
-					// {
-					// 	"type": "Rigid Body",
-					// 	"collide": true,
-					// 	"collider Scale": [0.5, 0.5, 0.5]
-					// }
 					// {
 					//     "type": "Movement",
 					//     "linearVelocity": [0, 0.1, 0],

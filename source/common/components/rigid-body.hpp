@@ -28,6 +28,17 @@ public:
 
   // Reads linearVelocity & angularVelocity from the given json object
   void deserialize(const nlohmann::json &data) override;
+  
+  RigidBodyComponent(){}
+  RigidBodyComponent(RigidBodyComponent & copied)
+  {
+   // rigidbody= new reactphysics3d::RigidBody(*copied.rigidbody);
+    rigidBodyType = copied.rigidBodyType;
+    colliderShape=copied.colliderShape;
+    colliderScale=copied.colliderScale;
+  }
+
 };
+
 
 } // namespace our

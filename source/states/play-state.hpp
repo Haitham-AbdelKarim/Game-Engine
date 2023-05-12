@@ -26,7 +26,7 @@ class Playstate : public our::State {
   our::PhysicsEventsListener physicsEventsListener;
 
   reactphysics3d::PhysicsCommon physicsCommon;
-  const double timeStep = 1.0f / 60.0f;
+  const double timeStep = 1.0f / 20.0f;
 
   // Create a physics world
   reactphysics3d::PhysicsWorld *worldPhysics;

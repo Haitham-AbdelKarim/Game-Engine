@@ -31,6 +31,12 @@ namespace our {
             entities.insert(newEntity);
             return newEntity;
         }
+        static Entity* addspawner() {
+            //TODO: (Req 8) Create a new entity, set its world member variable to this,
+            // ---> WITHOUT  inserting it in the suitable container.
+            Entity* newEntity = new Entity();
+            return newEntity;
+        }
 
         // This returns and immutable reference to the set of all entites in the world.
         const std::unordered_set<Entity*>& getEntities() {

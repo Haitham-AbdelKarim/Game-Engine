@@ -12,6 +12,14 @@ namespace our {
     public:
         Mesh* mesh; // The mesh that should be drawn
         Material* material; // The material used to draw the mesh
+        MeshRendererComponent(){}
+
+        MeshRendererComponent(MeshRendererComponent & copied)
+            {
+                // rigidbody= new reactphysics3d::RigidBody(*copied.rigidbody);
+                mesh=new Mesh(*copied.mesh);
+                // Material=new Material(*copied.material);
+            }
 
         // The ID of this component type is "Mesh Renderer"
         static std::string getID() { return "Mesh Renderer"; }
