@@ -71,7 +71,7 @@ void TexturedMaterial::deserialize(const nlohmann::json &data) {
 
 void LitMaterial::setup(glm::mat4 transform, glm::mat4 VP,
                         glm::vec3 cameraPosition, Light *light_list) const {
-  TexturedMaterial::setup();
+  TintedMaterial::setup();
   glm::mat4 M = transform;
   glm::mat4 M_IT = glm::transpose(glm::inverse(M));
 
@@ -122,7 +122,7 @@ void LitMaterial::setup(glm::mat4 transform, glm::mat4 VP,
 
 // This function read the material data from a json object
 void LitMaterial::deserialize(const nlohmann::json &data) {
-  TexturedMaterial::deserialize(data);
+  TintedMaterial::deserialize(data);
   if (!data.is_object())
     return;
   albedo = AssetLoader<Texture2D>::get(data.value("albedo", ""));
@@ -131,6 +131,7 @@ void LitMaterial::deserialize(const nlohmann::json &data) {
   ambient_occlusion =
       AssetLoader<Texture2D>::get(data.value("ambient_occlusion", ""));
   emission = AssetLoader<Texture2D>::get(data.value("emission", ""));
+  sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
 }
 
 } // namespace our

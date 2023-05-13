@@ -88,6 +88,8 @@ set(COMMON_SOURCES
         source/common/components/light.cpp
         source/common/components/spawner.hpp
         source/common/components/spawner.cpp
+        source/common/components/follower.hpp
+        source/common/components/follower.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
@@ -98,6 +100,8 @@ set(COMMON_SOURCES
         source/common/systems/light-controller.hpp
         source/common/systems/physics-events-listener.hpp
         source/common/systems/collision-handler.hpp
+        source/common/systems/spawner.hpp
+        source/common/systems/follower.hpp
 )
 
 # Define the directories in which to search for the included headers

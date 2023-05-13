@@ -167,8 +167,6 @@ public:
       entity->getComponent<PlayerComponent>()->onTheGround = false;
     }
 
-    std::cout << entity->getComponent<PlayerComponent>()->onTheGround;
-
     if (rigidbody && entity->getComponent<PlayerComponent>()->onTheGround) {
       rigidbody->rigidbody->setAngularLockAxisFactor(
           reactphysics3d::Vector3(0, 0, 0));

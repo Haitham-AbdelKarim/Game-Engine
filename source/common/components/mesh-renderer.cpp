@@ -20,9 +20,9 @@ void MeshRendererComponent::deserialize(const nlohmann::json &data) {
 
   // our::AssetLoader<Material> materialLoader;
   // material = materialLoader.get(data["material"].get<std::string>());
-
-  mesh = our::AssetLoader<our::Mesh>::get(data["mesh"].get<std::string>());
-  material =
-      our::AssetLoader<our::Material>::get(data["material"].get<std::string>());
+  meshName = data["mesh"].get<std::string>();
+  materialName = data["material"].get<std::string>();
+  mesh = our::AssetLoader<our::Mesh>::get(meshName);
+  material = our::AssetLoader<our::Material>::get(materialName);
 }
 } // namespace our

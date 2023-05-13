@@ -93,7 +93,7 @@
 					"shader": "textured",
 					"pipelineState": {
 						"faceCulling": {
-							"enabled": false
+							"enabled": true
 						},
 						"depthTesting": {
 							"enabled": true
@@ -108,7 +108,7 @@
 					"shader": "light",
 					"pipelineState": {
 						"faceCulling": {
-							"enabled": false
+							"enabled": true
 						},
 						"depthTesting": {
 							"enabled": true
@@ -205,6 +205,11 @@
 						"type": "Rigid Body",
 						"collide": true,
 						"collider Scale": [0.5, 0.5, 0.5]
+					},
+					{
+						"type": "Follower",
+						"target Name": "player",
+						"speed": 2
 					}
 					// {
 					//     "type": "Movement",
@@ -213,6 +218,67 @@
 					// }
 				]
 			},
+			{
+				"rotation": [-45, 0, 0],
+				"position": [0, 20, 0],
+
+				"components": [
+					{
+						"type": "Spawner",
+						"entity": {
+							"rotation": [-45, 0, 0],
+							"position": [0, 20, 0],
+							"components": [
+								{
+									"type": "Mesh Renderer",
+									"mesh": "sphere",
+									"material": "glass"
+								},
+								{
+									"type": "Rigid Body",
+									"collide": true,
+									"collider Scale": [0.5, 0.5, 0.5]
+								},
+								{
+									"type": "Follower",
+									"target Name": "player"
+								}
+							]
+						}
+					}
+				]
+			},
+			{
+				"rotation": [-45, 0, 0],
+				"position": [0, 20, 0],
+
+				"components": [
+					{
+						"type": "Spawner",
+						"entity": {
+							"rotation": [-45, 0, 0],
+							"position": [0, 20, 10],
+							"components": [
+								{
+									"type": "Mesh Renderer",
+									"mesh": "sphere",
+									"material": "glass"
+								},
+								{
+									"type": "Rigid Body",
+									"collide": true,
+									"collider Scale": [0.5, 0.5, 0.5]
+								},
+								{
+									"type": "Follower",
+									"target Name": "player"
+								}
+							]
+						}
+					}
+				]
+			},
+
 			{
 				"name": "ground",
 				"position": [0, -1, 0],
@@ -305,7 +371,7 @@
 				]
 			},
 			{
-				"name":"obstacle",
+				"name": "obstacle",
 				"position": [0, 1, 2],
 				"rotation": [0, 0, 0],
 				"scale": [2, 2, 2],

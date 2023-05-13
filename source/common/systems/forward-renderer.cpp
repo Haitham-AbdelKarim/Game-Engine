@@ -137,8 +137,7 @@ void ForwardRenderer::destroy() {
 }
 
 void ForwardRenderer::render(World *world,
-                             reactphysics3d::PhysicsWorld *phyWorld,
-                             reactphysics3d::PhysicsCommon *physicsCommon,
+
                              Light *light_list) {
   // First of all, we search for a camera and for all the mesh renderers
   CameraComponent *camera = nullptr;
@@ -163,13 +162,6 @@ void ForwardRenderer::render(World *world,
       } else {
         // Otherwise, we add it to the opaque command list
         opaqueCommands.push_back(command);
-      }
-    }
-    if (auto rigidBody = entity->getComponent<RigidBodyComponent>();
-        rigidBody) {
-      if (!rigidBody->isInitialized) {
-        rigidBody->setup(phyWorld, entity,
-                         physicsCommon);
       }
     }
   }

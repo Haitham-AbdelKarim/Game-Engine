@@ -79,28 +79,21 @@ public:
 
     glBindVertexArray(0); // unbind the vertix array object
   }
-  Mesh(Mesh & copied)
-  {
-   // rigidbody= new reactphysics3d::RigidBody(*copied.rigidbody);
-    VBO = copied.VBO;
-    EBO=copied.EBO;
-    VAO=copied.VAO;
-    elementCount=copied.elementCount;
-  }
 
   // this function should render the mesh
   void draw() {
     // TODO: (Req 2) Write this function
-    glBindVertexArray(VAO); //Bind the vertix array object
-    glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, 0); //Draw the elements
+    glBindVertexArray(VAO); // Bind the vertix array object
+    glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT,
+                   0); // Draw the elements
   }
 
   // this function should delete the vertex & element buffers and the vertex
   // array object
   ~Mesh() {
     // TODO: (Req 2) Write this function
-    glDeleteBuffers(1, &VBO); //Delete the vertix buffer object
-    glDeleteBuffers(1, &EBO); // Delete the elements buffer object
+    glDeleteBuffers(1, &VBO);      // Delete the vertix buffer object
+    glDeleteBuffers(1, &EBO);      // Delete the elements buffer object
     glDeleteVertexArrays(1, &VAO); // Delete the vertix array object
   }
 
