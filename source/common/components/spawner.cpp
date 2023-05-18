@@ -3,10 +3,10 @@
 #include "../deserialize-utils.hpp"
 #include "../ecs/entity.hpp"
 #include "../ecs/world.hpp"
+#include "bullet.hpp"
 #include "follower.hpp"
 #include "mesh-renderer.hpp"
 #include "rigid-body.hpp"
-
 
 namespace our {
 
@@ -17,7 +17,7 @@ void SpawnerComponent::deserialize(const nlohmann::json &data) {
   entity->parent = nullptr;
   entity->deserialize(data["entity"]);
 }
-void SpawnerComponent::spawn(World *world) {
+Entity *SpawnerComponent::spawn(World *world) {
   Entity *newEntity = world->add();
   newEntity->localTransform = entity->localTransform;
   newEntity->name = entity->name;
@@ -34,5 +34,9 @@ void SpawnerComponent::spawn(World *world) {
     auto newFollower = newEntity->addComponent<FollowerComponent>();
     newFollower->copy(follower);
   }
+  if (auto bullet = entity->getComponent<BulletComponent>(); bullet) {
+    auto newBullet = newEntity->addComponent<BulletComponent>();
+  }
+  return newEntity;
 }
 } // namespace our

@@ -4,6 +4,8 @@
 
 #include <asset-loader.hpp>
 #include <ecs/world.hpp>
+#include <iostream>
+#include <systems/bullet.hpp>
 #include <systems/follower.hpp>
 #include <systems/forward-renderer.hpp>
 #include <systems/free-camera-controller.hpp>
@@ -28,9 +30,11 @@ class Playstate : public our::State {
   our::PhysicsEventsListener physicsEventsListener;
   our::SpawnerSystem spawnerSystem;
   our::FollowerSystem followerSystem;
+  our::BulletSystem bulletSystem;
 
   reactphysics3d::PhysicsCommon physicsCommon;
   const double timeStep = 1.0f / 30.0f;
+  int round = 1;
 
   // Create a physics world
   reactphysics3d::PhysicsWorld *worldPhysics;
@@ -65,13 +69,14 @@ class Playstate : public our::State {
                            &physicsCommon);
     cameraController.update(&world, (float)deltaTime);
     playerControllerSystem.update(&world, (float)deltaTime);
-    spawnerSystem.update(&world, (float)deltaTime);
+    spawnerSystem.update(&world, (float)deltaTime, round);
     followerSystem.update(&world, (float)deltaTime, worldPhysics,
                           &physicsCommon);
+    physicsEventsListener.update((float)deltaTime);
+    bulletSystem.update(&world, (float)deltaTime);
 
     // And finally we use the renderer system to draw the scene
     renderer.render(&world, light_list);
-
     worldPhysics->update(timeStep);
     // Get a reference to the keyboard object
     auto &keyboard = getApp()->getKeyboard();

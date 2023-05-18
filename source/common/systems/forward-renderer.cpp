@@ -213,8 +213,7 @@ void ForwardRenderer::render(World *world,
   }
 
   // TODO: (Req 9) Clear the color and depth buffers
-  glClear(GL_COLOR_BUFFER_BIT);
-  glClear(GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // TODO: (Req 9) Draw all the opaque commands
   //  Don't forget to set the "transform" uniform to be equal the
   //  model-view-projection matrix for each render command

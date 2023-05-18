@@ -23,6 +23,7 @@ void RigidBodyComponent::setup(reactphysics3d::PhysicsWorld *world,
   }
   isInitialized = true;
   rigidbody->setUserData(entity);
+  physicsWorld = world;
 }
 // Reads linearVelocity & angularVelocity from the given json object
 void RigidBodyComponent::deserialize(const nlohmann::json &data) {

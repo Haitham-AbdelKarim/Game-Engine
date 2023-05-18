@@ -20,6 +20,7 @@ public:
   bool collide = false;
   std::string colliderShape = "box";
   glm::vec3 colliderScale = glm::vec3(1, 1, 1);
+  reactphysics3d::PhysicsWorld *physicsWorld;
   // The ID of this component type is "Movement"
   static std::string getID() { return "Rigid Body"; }
   // initialize
@@ -35,6 +36,12 @@ public:
     collide = copied->collide;
     colliderShape = copied->colliderShape;
     colliderScale = copied->colliderScale;
+  }
+  ~RigidBodyComponent() {
+    if (rigidbody) {
+      rigidbody->removeCollider(rigidbody->getCollider(0));
+      physicsWorld->destroyRigidBody(rigidbody);
+    }
   }
 };
 

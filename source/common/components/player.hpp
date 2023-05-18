@@ -24,6 +24,8 @@ public:
       3.0f}; // The unity per second of camera movement if WASD is pressed
   float speedupFactor =
       5.0f; // A multiplier for the positionSensitivity if "Left Shift" is held.
+  int maxHealth = 4;
+  int currentHealth = maxHealth;
   // The ID of this component type is "Player"
   bool onTheGround = true;
   static std::string getID() { return "Player"; }

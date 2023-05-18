@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../components/bullet.hpp"
 #include "../components/rigid-body.hpp"
 #include "../ecs/world.hpp"
 
@@ -39,6 +40,13 @@ public:
         // velocity and delta time.
         if (!rigidBody->isInitialized) {
           rigidBody->setup(phyWorld, entity, physicsCommon);
+          if (entity->name == "bullet") {
+            rigidBody->rigidbody->setLinearVelocity(
+                convert(entity->getComponent<BulletComponent>()->direction) *
+                20);
+            rigidBody->rigidbody->enableGravity(false);
+            rigidBody->rigidbody->setMass(0.1);
+          }
         }
         entity->localTransform.position =
             convert(rigidBody->rigidbody->getTransform().getPosition());

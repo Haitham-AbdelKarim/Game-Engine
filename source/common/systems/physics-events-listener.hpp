@@ -1,19 +1,18 @@
 #pragma once
 #include <ecs/entity.hpp>
+#include <iostream>
 #include <reactphysics3d/reactphysics3d.h>
-#include <string>
 #include <systems/collision-handler.hpp>
 
 namespace our {
 class PhysicsEventsListener : public reactphysics3d::EventListener {
 
-  enum Contacts {
-    none = -1,
-    Player_Ground = 0,
-  };
+  enum Contacts { none = -1, Player_Ground = 0, Player_Enemy = 1 };
+  float time;
 
 public:
   CollisionHandler collisionHandler;
+  void update(float delta) { time += delta; }
   virtual void
   onContact(const CollisionCallback ::CallbackData &callbackData) override {
     // For each contact pair
@@ -34,6 +33,12 @@ public:
         } else {
           collisionHandler.playerLanded(entity2);
         }
+      } else if (getContactId(name1, name2) == Player_Enemy) {
+        if (name1 == "player") {
+          collisionHandler.EnemyAttacked(entity1, time);
+        } else {
+          collisionHandler.EnemyAttacked(entity2, time);
+        }
       }
     }
   }
@@ -45,6 +50,9 @@ public:
     } else if ((name1 == "player" && name2 == "obstacle") ||
                (name2 == "player" && name1 == "obstacle")) {
       return Player_Ground;
+    } else if ((name1 == "player" && name2 == "enemy") ||
+               (name2 == "player" && name1 == "enemy")) {
+      return Player_Enemy;
     } else {
       return none;
     }

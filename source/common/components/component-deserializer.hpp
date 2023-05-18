@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ecs/entity.hpp"
+#include "bullet.hpp"
 #include "camera.hpp"
 #include "follower.hpp"
 #include "free-camera-controller.hpp"
@@ -39,6 +40,8 @@ inline void deserializeComponent(const nlohmann::json &data, Entity *entity) {
     component = entity->addComponent<SpawnerComponent>();
   } else if (type == FollowerComponent::getID()) {
     component = entity->addComponent<FollowerComponent>();
+  } else if (type == BulletComponent::getID()) {
+    component = entity->addComponent<BulletComponent>();
   }
   if (component)
     component->deserialize(data);

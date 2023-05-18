@@ -7,12 +7,11 @@
 
 namespace our {
 
-class SpawnerComponent : public Component {
+class BulletComponent : public Component {
 public:
-  Entity *entity;
-  static std::string getID() { return "Spawner"; }
-  Entity *spawn(World *world);
-  // Reads linearVelocity & angularVelocity from the given json object
+  glm::vec3 direction = glm::vec3(0, 0, -1);
+  float shotTime = 0;
+  static std::string getID() { return "Bullet"; }
   void deserialize(const nlohmann::json &data) override;
 };
 

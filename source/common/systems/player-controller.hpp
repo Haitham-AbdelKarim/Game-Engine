@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../components/bullet.hpp"
 #include "../components/camera.hpp"
 #include "../components/player.hpp"
 #include "../components/rigid-body.hpp"
+#include "../components/spawner.hpp"
 #include "../ecs/world.hpp"
 
 #include "../application.hpp"
@@ -22,6 +24,9 @@ namespace our {
 class PlayerControllerSystem {
   Application *app;          // The application in which the state runs
   bool mouse_locked = false; // Is the mouse locked
+  float time;
+  float lastShot = 0;
+  float fireRate = 0.5f;
 
 public:
   // When a state enters, it should call this function and give it the pointer
@@ -33,6 +38,7 @@ public:
   void update(World *world, float deltaTime) {
     // First of all, we search for an entity containing both a CameraComponent
     // and a FreeCameraControllerComponent As soon as we find one, we break
+    time += deltaTime;
     CameraComponent *camera = nullptr;
     RigidBodyComponent *rigidbody = nullptr;
     PlayerComponent *player = nullptr;
@@ -158,8 +164,22 @@ public:
       velocity += glm::normalize(lock_y * right);
     if (app->getKeyboard().isPressed(GLFW_KEY_A))
       velocity -= glm::normalize(lock_y * right);
-    float numOfColliders =
-        rigidbody->rigidbody->getCollider(0)->getCollisionCategoryBits();
+    if (app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1)) {
+      if (time > lastShot + fireRate) {
+        auto spawner = entity->getComponent<SpawnerComponent>();
+        if (spawner) {
+          auto bullet = spawner->spawn(world);
+          auto bulletdata = bullet->getComponent<BulletComponent>();
+          bulletdata->direction = front;
+          bullet->localTransform.setPosition(
+              glm::mat4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+                        0.0, front.x * 2, front.y * 2, front.z * 2, 1.0) *
+              player->getOwner()->getLocalToWorldMatrix());
+          bulletdata->shotTime = time;
+          lastShot = time;
+        }
+      }
+    }
     if (app->getKeyboard().isPressed(GLFW_KEY_SPACE) &&
         entity->getComponent<PlayerComponent>()->onTheGround) {
       rigidbody->rigidbody->applyWorldForceAtCenterOfMass(
@@ -175,6 +195,9 @@ public:
       temp.y = rigidbody->rigidbody->getLinearVelocity().y;
 
       rigidbody->rigidbody->setLinearVelocity(temp);
+    }
+    if (player->currentHealth == 0) {
+      app->changeState("menu");
     }
   }
 
