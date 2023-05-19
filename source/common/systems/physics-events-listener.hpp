@@ -4,10 +4,16 @@
 #include <reactphysics3d/reactphysics3d.h>
 #include <systems/collision-handler.hpp>
 
+
 namespace our {
 class PhysicsEventsListener : public reactphysics3d::EventListener {
 
-  enum Contacts { none = -1, Player_Ground = 0, Player_Enemy = 1 };
+  enum Contacts {
+    none = -1,
+    Player_Ground = 0,
+    Player_Enemy = 1,
+    Bullet_Enemy = 2
+  };
   float time;
 
 public:
@@ -39,6 +45,12 @@ public:
         } else {
           collisionHandler.EnemyAttacked(entity2, time);
         }
+      } else if (getContactId(name1, name2) == Bullet_Enemy) {
+        if (name1 == "enemy") {
+          collisionHandler.bulletHit(entity1, entity2);
+        } else {
+          collisionHandler.bulletHit(entity2, entity1);
+        }
       }
     }
   }
@@ -53,6 +65,9 @@ public:
     } else if ((name1 == "player" && name2 == "enemy") ||
                (name2 == "player" && name1 == "enemy")) {
       return Player_Enemy;
+    } else if ((name1 == "bullet" && name2 == "enemy") ||
+               (name2 == "bullet" && name1 == "enemy")) {
+      return Bullet_Enemy;
     } else {
       return none;
     }

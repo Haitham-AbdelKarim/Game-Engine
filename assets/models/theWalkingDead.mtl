@@ -1,0 +1,31 @@
+# Blender MTL File: 'None'
+# Material Count: 2
+
+newmtl skeletonZombie_Material
+Ns 179.999996
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.500000 0.500000 0.500000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_normal.png
+map_Kd D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_diffuse.png
+map_Ke D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_glow.png
+map_Ks D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_specular.png
+map_d D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_diffuse.png
+
+newmtl skeletonZombie_Material1
+Ns 179.999996
+Ka 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.500000 0.500000 0.500000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_normal.png
+map_Kd D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_body_diffuse.png
+map_Ke D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_glow.png
+map_Ks D:\\Studying\\CMP\\home\\app\\mixamo-mini\\tmp\\skins_b58afd53-7c2d-453e-ae47-62438173b71f.fbm\\skeletonZombie_specular.png

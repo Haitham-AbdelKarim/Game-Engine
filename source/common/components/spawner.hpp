@@ -10,6 +10,7 @@ namespace our {
 class SpawnerComponent : public Component {
 public:
   Entity *entity;
+  float lastSpawn = 0;
   static std::string getID() { return "Spawner"; }
   Entity *spawn(World *world);
   // Reads linearVelocity & angularVelocity from the given json object

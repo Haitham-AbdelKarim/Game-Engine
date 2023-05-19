@@ -92,6 +92,8 @@ set(COMMON_SOURCES
         source/common/components/follower.cpp
         source/common/components/bullet.hpp
         source/common/components/bullet.cpp
+        source/common/components/enemy.hpp
+        source/common/components/enemy.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
@@ -105,6 +107,7 @@ set(COMMON_SOURCES
         source/common/systems/spawner.hpp
         source/common/systems/follower.hpp
         source/common/systems/bullet.hpp
+        source/common/systems/enemy.hpp
 )
 
 # Define the directories in which to search for the included headers

@@ -4,8 +4,10 @@
 
 #include <asset-loader.hpp>
 #include <ecs/world.hpp>
+#include <imgui_impl/imgui_impl_opengl3.h>
 #include <iostream>
 #include <systems/bullet.hpp>
+#include <systems/enemy.hpp>
 #include <systems/follower.hpp>
 #include <systems/forward-renderer.hpp>
 #include <systems/free-camera-controller.hpp>
@@ -31,10 +33,12 @@ class Playstate : public our::State {
   our::SpawnerSystem spawnerSystem;
   our::FollowerSystem followerSystem;
   our::BulletSystem bulletSystem;
+  our::EnemySystem enemySystem;
 
   reactphysics3d::PhysicsCommon physicsCommon;
   const double timeStep = 1.0f / 30.0f;
   int round = 1;
+  glm::ivec2 size;
 
   // Create a physics world
   reactphysics3d::PhysicsWorld *worldPhysics;
@@ -56,10 +60,21 @@ class Playstate : public our::State {
     playerControllerSystem.enter(getApp());
     spawnerSystem.enter(getApp());
     // Then we initialize the renderer
-    auto size = getApp()->getFrameBufferSize();
+    size = getApp()->getFrameBufferSize();
     renderer.initialize(size, config["renderer"]);
     worldPhysics = physicsCommon.createPhysicsWorld();
     worldPhysics->setEventListener(&physicsEventsListener);
+    enemySystem.setSpawner(&spawnerSystem);
+  }
+  void onImmediateGui() override {
+    ImGui::GetFont()->Scale = 3.0f;
+    ImGui::PushFont(ImGui::GetFont());
+    ImDrawList *drawList = ImGui::GetBackgroundDrawList();
+    std::string roundString = "Round " + std::to_string(round);
+    drawList->AddText(ImVec2(25, 25), ImColor(1.0f, 0.0f, 0.0f),
+                      roundString.c_str());
+
+    ImGui::PopFont();
   }
   void onDraw(double deltaTime) override {
     // Here, we just run a bunch of systems to control the world logic
@@ -74,6 +89,7 @@ class Playstate : public our::State {
                           &physicsCommon);
     physicsEventsListener.update((float)deltaTime);
     bulletSystem.update(&world, (float)deltaTime);
+    enemySystem.update(&world, (float)deltaTime);
 
     // And finally we use the renderer system to draw the scene
     renderer.render(&world, light_list);

@@ -39,14 +39,22 @@
 				"specular": "assets/textures/specular.jpg",
 				"ambient_occlusion": "assets/textures/specular.jpg",
 				"emission": "assets/textures/specular.jpg",
-				"mars": "assets/textures/marsGround.png"
+				"mars": "assets/textures/marsGround.png",
+				"theWalkingDead": "assets/textures/theWalkingDead.png",
+				"tieFighter": "assets/textures/TieFighter_ImperialJunk_BaseColor.png",
+				"wing": "assets/textures/Wing_Wing_BaseColor.png",
+				"rocket": "assets/textures/Rocket.png"
 			},
 			"meshes": {
 				"cube": "assets/models/cube.obj",
 				"monkey": "assets/models/monkey.obj",
 				"plane": "assets/models/plane.obj",
 				"sphere": "assets/models/sphere.obj",
-				"gun": "assets/models/1911 Pistol.obj"
+				"gun": "assets/models/1911 Pistol.obj",
+				"theWalkingDead": "assets/models/theWalkingDead.obj",
+				"tieFighter": "assets/models/tieFighter.obj",
+				"wing": "assets/models/wing.obj",
+				"rocket": "assets/models/rocket.obj"
 			},
 			"samplers": {
 				"default": {},
@@ -158,6 +166,66 @@
 					"tint": [1, 1, 1, 1],
 					"texture": "moon",
 					"sampler": "default"
+				},
+				"theWalkingDead": {
+					"type": "textured",
+					"shader": "textured",
+					"pipelineState": {
+						"faceCulling": {
+							"enabled": false
+						},
+						"depthTesting": {
+							"enabled": true
+						}
+					},
+					"tint": [1, 1, 1, 1],
+					"texture": "theWalkingDead",
+					"sampler": "default"
+				},
+				"wing": {
+					"type": "textured",
+					"shader": "textured",
+					"pipelineState": {
+						"faceCulling": {
+							"enabled": false
+						},
+						"depthTesting": {
+							"enabled": true
+						}
+					},
+					"tint": [1, 1, 1, 1],
+					"texture": "wing",
+					"sampler": "default"
+				},
+				"tieFighter": {
+					"type": "textured",
+					"shader": "textured",
+					"pipelineState": {
+						"faceCulling": {
+							"enabled": false
+						},
+						"depthTesting": {
+							"enabled": true
+						}
+					},
+					"tint": [1, 1, 1, 1],
+					"texture": "tieFighter",
+					"sampler": "default"
+				},
+				"rocket": {
+					"type": "textured",
+					"shader": "textured",
+					"pipelineState": {
+						"faceCulling": {
+							"enabled": false
+						},
+						"depthTesting": {
+							"enabled": true
+						}
+					},
+					"tint": [1, 1, 1, 1],
+					"texture": "rocket",
+					"sampler": "default"
 				}
 			}
 		},
@@ -236,37 +304,41 @@
 					}
 				]
 			},
-			{
-				"rotation": [-45, 0, 0],
-				"position": [0, 20, 0],
-				"name": "enemy",
+			// {
+			// 	"rotation": [-45, 0, 0],
+			// 	"position": [0, 20, 0],
+			// 	"name": "enemy",
 
-				"components": [
-					{
-						"type": "Mesh Renderer",
-						"mesh": "monkey",
-						"material": "monkey"
-					},
-					{
-						"type": "Rigid Body",
-						"collide": true,
-						"collider Scale": [0.5, 0.5, 0.5]
-					},
-					{
-						"type": "Follower",
-						"target Name": "player",
-						"speed": 2
-					}
-					// {
-					//     "type": "Movement",
-					//     "linearVelocity": [0, 0.1, 0],
-					//     "angularVelocity": [0, 45, 0]
-					// }
-				]
-			},
+			// 	"components": [
+			// 		{
+			// 			"type": "Mesh Renderer",
+			// 			"mesh": "theWalkingDead",
+			// 			"material": "theWalkingDead"
+			// 		},
+			// 		{
+			// 			"type": "Rigid Body",
+			// 			"collide": true,
+			// 			"collider Scale": [0.5, 0.5, 0.5]
+			// 		},
+			// 		{
+			// 			"type": "Follower",
+			// 			"target Name": "player",
+			// 			"speed": 2
+			// 		},
+			// 		{
+			// 			"type": "Enemy"
+			// 		}
+			// 		// {
+			// 		//     "type": "Movement",
+			// 		//     "linearVelocity": [0, 0.1, 0],
+			// 		//     "angularVelocity": [0, 45, 0]
+			// 		// }
+			// 	]
+			// },
 			{
 				"rotation": [-45, 0, 0],
 				"position": [0, 20, 0],
+				"name": "enemy Spawner",
 
 				"components": [
 					{
@@ -274,6 +346,8 @@
 						"entity": {
 							"rotation": [-45, 0, 0],
 							"position": [0, 20, 0],
+							"name": "enemy",
+
 							"components": [
 								{
 									"type": "Mesh Renderer",
@@ -288,6 +362,9 @@
 								{
 									"type": "Follower",
 									"target Name": "player"
+								},
+								{
+									"type": "Enemy"
 								}
 							]
 						}
@@ -297,6 +374,7 @@
 			{
 				"rotation": [-45, 0, 0],
 				"position": [0, 20, 0],
+				"name": "enemy Spawner",
 
 				"components": [
 					{
@@ -304,6 +382,8 @@
 						"entity": {
 							"rotation": [-45, 0, 0],
 							"position": [0, 20, 0],
+							"name": "enemy",
+
 							"components": [
 								{
 									"type": "Mesh Renderer",
@@ -318,6 +398,9 @@
 								{
 									"type": "Follower",
 									"target Name": "player"
+								},
+								{
+									"type": "Enemy"
 								}
 							]
 						}
@@ -327,6 +410,7 @@
 			{
 				"rotation": [-45, 0, 0],
 				"position": [0, 20, 0],
+				"name": "enemy Spawner",
 
 				"components": [
 					{
@@ -334,6 +418,8 @@
 						"entity": {
 							"rotation": [-45, 0, 0],
 							"position": [0, 20, 10],
+							"name": "enemy",
+
 							"components": [
 								{
 									"type": "Mesh Renderer",
@@ -348,6 +434,9 @@
 								{
 									"type": "Follower",
 									"target Name": "player"
+								},
+								{
+									"type": "Enemy"
 								}
 							]
 						}
@@ -359,7 +448,7 @@
 				"name": "ground",
 				"position": [0, -1, 0],
 				"rotation": [-90, 0, 0],
-				"scale": [100, 100, 1],
+				"scale": [1000, 1000, 1],
 				"components": [
 					{
 						"type": "Mesh Renderer",
@@ -370,7 +459,7 @@
 						"type": "Rigid Body",
 						"Rigid Body Type": "static",
 						"collide": true,
-						"collider Scale": [100, 100, 0.2]
+						"collider Scale": [1000, 1000, 0.2]
 					}
 				]
 			},
@@ -515,19 +604,142 @@
 			},
 			{
 				"name": "moon",
-				"position": [0, 10, 0],
+				"position": [0, 1000, -1000],
 				"rotation": [45, 45, 0],
-				"scale": [5, 5, 5],
+				"scale": [400, 400, 400],
 				"components": [
 					{
 						"type": "Mesh Renderer",
 						"mesh": "sphere",
 						"material": "moon"
-					},
+					}
+					// {
+					// 	"type": "Rigid Body",
+					// 	"collide": true,
+					// 	"collider Scale": [5, 5, 5]
+					// }
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [500, 10, 0],
+				"rotation": [45, 45, 0],
+				"scale": [5, 5, 5],
+				"components": [
+					{
+						"type": "Mesh Renderer",
+						"mesh": "wing",
+						"material": "wing"
+					}
+					// {
+					// 	"type": "Rigid Body",
+					// 	"collide": fal,
+					// 	"collider Scale": [5, 5, 5]
+					// }
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [500, 10, 100],
+				"rotation": [0, 180, 0],
+				"scale": [100, 100, 100],
+				"components": [
+					{
+						"type": "Mesh Renderer",
+						"mesh": "tieFighter",
+						"material": "tieFighter"
+					}
+					// {
+					// 	"type": "Rigid Body",
+					// 	"collide": true,
+					// 	"collider Scale": [5, 5, 5]
+					// }
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [-1000, -10, 500],
+				"rotation": [50, 180, -20],
+				"scale": [50, 50, 50],
+				"components": [
+					{
+						"type": "Mesh Renderer",
+						"mesh": "rocket",
+						"material": "rocket"
+					}
+					// {
+					// 	"type": "Rigid Body",
+					// 	"collide": true,
+					// 	"collider Scale": [5, 5, 5]
+					// }
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [200, 0, 0],
+				"components": [
 					{
 						"type": "Rigid Body",
 						"collide": true,
-						"collider Scale": [5, 5, 5]
+						"Rigid Body Type": "static",
+						"collider Scale": [1, 100, 1000]
+					}
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [0, 0, -200],
+				"components": [
+					{
+						"type": "Rigid Body",
+						"collide": true,
+						"Rigid Body Type": "static",
+						"collider Scale": [1000, 100, 1]
+					}
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [0, 0, 200],
+				"components": [
+					{
+						"type": "Rigid Body",
+						"collide": true,
+						"Rigid Body Type": "static",
+						"collider Scale": [1000, 100, 1]
+					}
+					// {
+					// 	"type": "Movement",
+					// 	"angularVelocity": [0, 90, 0]
+					// }
+				]
+			},
+			{
+				"position": [-200, 0, 0],
+				"components": [
+					{
+						"type": "Rigid Body",
+						"collide": true,
+						"Rigid Body Type": "static",
+						"collider Scale": [1, 100, 1000]
 					}
 					// {
 					// 	"type": "Movement",

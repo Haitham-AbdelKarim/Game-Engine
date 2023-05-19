@@ -17,7 +17,7 @@ void CameraComponent::deserialize(const nlohmann::json &data) {
     cameraType = CameraType::PERSPECTIVE;
   }
   near = data.value("near", 0.01f);
-  far = data.value("far", 100.0f);
+  far = data.value("far", 1500.0f);
   fovY = data.value("fovY", 90.0f) * (glm::pi<float>() / 180);
   orthoHeight = data.value("orthoHeight", 1.0f);
 }

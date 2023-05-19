@@ -1,8 +1,12 @@
 #pragma once
+#include <components/bullet.hpp>
+#include <components/enemy.hpp>
 #include <components/player.hpp>
+#include <components/rigid-body.hpp>
 #include <ecs/entity.hpp>
 #include <iostream>
 #include <reactphysics3d/reactphysics3d.h>
+#include <systems/spawner.hpp>
 
 namespace our {
 
@@ -24,6 +28,13 @@ public:
       lastHitTime = time;
       std::cout << "\nDie, b*tch";
       player->getComponent<PlayerComponent>()->currentHealth--;
+    }
+  }
+  void bulletHit(Entity *enemy, Entity *bullet) {
+    auto enemyComponent = enemy->getComponent<EnemyComponent>();
+    auto bulletComponent = bullet->getComponent<BulletComponent>();
+    if (enemyComponent && bulletComponent) {
+      enemyComponent->health -= bulletComponent->damage;
     }
   }
 };

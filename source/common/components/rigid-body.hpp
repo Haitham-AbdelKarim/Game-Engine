@@ -14,7 +14,7 @@ namespace our {
 // how to use the ECS framework, see "free-camera-controller.hpp"
 class RigidBodyComponent : public Component {
 public:
-  reactphysics3d::RigidBody *rigidbody;
+  reactphysics3d::RigidBody *rigidbody = nullptr;
   bool isInitialized = false;
   std::string rigidBodyType = "dynamic";
   bool collide = false;
@@ -39,7 +39,8 @@ public:
   }
   ~RigidBodyComponent() {
     if (rigidbody) {
-      rigidbody->removeCollider(rigidbody->getCollider(0));
+      if (rigidbody->getNbColliders() > 0)
+        rigidbody->removeCollider(rigidbody->getCollider(0));
       physicsWorld->destroyRigidBody(rigidbody);
     }
   }

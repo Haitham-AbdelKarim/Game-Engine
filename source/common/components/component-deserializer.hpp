@@ -3,6 +3,7 @@
 #include "../ecs/entity.hpp"
 #include "bullet.hpp"
 #include "camera.hpp"
+#include "enemy.hpp"
 #include "follower.hpp"
 #include "free-camera-controller.hpp"
 #include "light.hpp"
@@ -42,6 +43,8 @@ inline void deserializeComponent(const nlohmann::json &data, Entity *entity) {
     component = entity->addComponent<FollowerComponent>();
   } else if (type == BulletComponent::getID()) {
     component = entity->addComponent<BulletComponent>();
+  } else if (type == EnemyComponent::getID()) {
+    component = entity->addComponent<EnemyComponent>();
   }
   if (component)
     component->deserialize(data);

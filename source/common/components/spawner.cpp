@@ -4,6 +4,7 @@
 #include "../ecs/entity.hpp"
 #include "../ecs/world.hpp"
 #include "bullet.hpp"
+#include "enemy.hpp"
 #include "follower.hpp"
 #include "mesh-renderer.hpp"
 #include "rigid-body.hpp"
@@ -36,6 +37,9 @@ Entity *SpawnerComponent::spawn(World *world) {
   }
   if (auto bullet = entity->getComponent<BulletComponent>(); bullet) {
     auto newBullet = newEntity->addComponent<BulletComponent>();
+  }
+  if (auto enemy = entity->getComponent<EnemyComponent>(); enemy) {
+    auto newEnemy = newEntity->addComponent<EnemyComponent>();
   }
   return newEntity;
 }
