@@ -18,6 +18,7 @@
 #include <systems/rigid-body.hpp>
 #include <systems/spawner.hpp>
 #include <utils.hpp>
+#include <SFML/Audio.hpp>
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {

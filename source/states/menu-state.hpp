@@ -7,10 +7,9 @@
 #include <texture/texture-utils.hpp>
 #include <texture/texture2d.hpp>
 
-
+#include <SFML/Audio.hpp>
 #include <array>
 #include <functional>
-
 
 // This struct is used to store the location and size of a button and the code
 // it should execute when clicked
@@ -54,6 +53,7 @@ class Menustate : public our::State {
   float time;
   // An array of the button that we can interact with
   std::array<Button, 2> buttons;
+  sf::Music *music = nullptr;
 
   void onInitialize() override {
     // First, we create a material for the menu's background
@@ -145,6 +145,36 @@ class Menustate : public our::State {
     buttons[1].position = {830.0f, 644.0f};
     buttons[1].size = {400.0f, 33.0f};
     buttons[1].action = [this]() { this->getApp()->close(); };
+
+    // sf::Sound sound;
+    // sf::SoundBuffer soundBuffer;
+    // soundBuffer.loadFromFile("fast0.wav");
+    // sound.setPitch(1.0f);
+    // sound.setVolume(7.0f);
+    // sound.setBuffer(soundBuffer);
+    // sound.setMinDistance(5.0f);
+    // sound.setAttenuation(0.5f);
+    // sound.setPosition(0, 40.0f, 0);
+    // sound.setLoop(true);
+    // sound.play();
+
+    music = new sf::Music;
+    music->openFromFile("assets/audio/Damned.ogg");
+    music->setPitch(1.0f);
+    music->setVolume(100.0f);
+    music->setLoop(true);
+    music->play();
+
+    //   while (music->getStatus() == sf::Music::Playing) {
+    //     // Leave some CPU time for other processes
+    //     sf::sleep(sf::milliseconds(100));
+
+    //     // Display the playing position
+    //     std::cout << "\rPlaying... " << music->getPlayingOffset().asSeconds()
+    //               << " sec        ";
+    //     std::cout << std::flush;
+    //   }
+    //   std::cout << std::endl << std::endl;
   }
 
   void onDraw(double deltaTime) override {
@@ -180,11 +210,12 @@ class Menustate : public our::State {
     glViewport(0, 0, size.x, size.y);
 
     // The view matrix is an identity (there is no camera that moves around).
-    // The projection matrix applys an orthographic projection whose size is the
-    // framebuffer size in pixels so that the we can define our object locations
-    // and sizes in pixels. Note that the top is at 0.0 and the bottom is at the
-    // framebuffer height. This allows us to consider the top-left corner of the
-    // window to be the origin which makes dealing with the mouse input easier.
+    // The projection matrix applys an orthographic projection whose size is
+    // the framebuffer size in pixels so that the we can define our object
+    // locations and sizes in pixels. Note that the top is at 0.0 and the
+    // bottom is at the framebuffer height. This allows us to consider the
+    // top-left corner of the window to be the origin which makes dealing with
+    // the mouse input easier.
     glm::mat4 VP =
         glm::ortho(0.0f, (float)size.x, (float)size.y, 0.0f, 1.0f, -1.0f);
     // The local to world (model) matrix of the background which is just a
@@ -196,8 +227,8 @@ class Menustate : public our::State {
     time += (float)deltaTime;
     menuMaterial->tint = glm::vec4(glm::smoothstep(0.00f, 2.00f, time));
     // Then we render the menu background
-    // Notice that I don't clear the screen first, since I assume that the menu
-    // rectangle will draw over the whole window anyway.
+    // Notice that I don't clear the screen first, since I assume that the
+    // menu rectangle will draw over the whole window anyway.
     menuMaterial->setup();
     menuMaterial->shader->set("transform", VP * M);
     rectangle->draw();
@@ -222,5 +253,6 @@ class Menustate : public our::State {
     delete menuMaterial;
     delete highlightMaterial->shader;
     delete highlightMaterial;
+    delete music;
   }
 };

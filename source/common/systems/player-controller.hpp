@@ -9,6 +9,7 @@
 
 #include "../application.hpp"
 
+#include <SFML/Audio.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/fast_trigonometry.hpp>
@@ -199,6 +200,11 @@ public:
     if (player->currentHealth == 0) {
       app->changeState("menu");
     }
+    glm::vec3 playerPosition =
+        glm::vec4(player->getOwner()->getLocalToWorldMatrix() *
+                  glm::vec4(0.0, 0.0, 0.0, 1.0));
+    sf::Listener::setPosition(playerPosition.x, playerPosition.y,
+                              playerPosition.z);
   }
 
   // When the state exits, it should call this function to ensure the mouse is

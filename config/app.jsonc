@@ -227,6 +227,11 @@
 					"texture": "rocket",
 					"sampler": "default"
 				}
+			},
+			"audios": {
+				"fast0": {
+					"path": "assets/audio/zombiesSounds/fast0.wav"
+				}
 			}
 		},
 		"world": [
@@ -437,6 +442,12 @@
 								},
 								{
 									"type": "Enemy"
+								},
+								{
+									"type": "Sound",
+									"sound": "fast0",
+									"minDistance": 5,
+									"autoPlay": false
 								}
 							]
 						}

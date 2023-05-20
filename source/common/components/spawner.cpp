@@ -8,6 +8,7 @@
 #include "follower.hpp"
 #include "mesh-renderer.hpp"
 #include "rigid-body.hpp"
+#include "sound.hpp"
 
 namespace our {
 
@@ -40,6 +41,12 @@ Entity *SpawnerComponent::spawn(World *world) {
   }
   if (auto enemy = entity->getComponent<EnemyComponent>(); enemy) {
     auto newEnemy = newEntity->addComponent<EnemyComponent>();
+  }
+  if (auto sound = entity->getComponent<SoundComponent>(); sound) {
+    auto newSound = newEntity->addComponent<SoundComponent>();
+    newSound->soundName = sound->soundName;
+    newSound->setup();
+    newSound->play();
   }
   return newEntity;
 }

@@ -11,7 +11,9 @@
 #include "movement.hpp"
 #include "player.hpp"
 #include "rigid-body.hpp"
+#include "sound.hpp"
 #include "spawner.hpp"
+
 
 namespace our {
 
@@ -45,6 +47,8 @@ inline void deserializeComponent(const nlohmann::json &data, Entity *entity) {
     component = entity->addComponent<BulletComponent>();
   } else if (type == EnemyComponent::getID()) {
     component = entity->addComponent<EnemyComponent>();
+  } else if (type == SoundComponent::getID()) {
+    component = entity->addComponent<SoundComponent>();
   }
   if (component)
     component->deserialize(data);

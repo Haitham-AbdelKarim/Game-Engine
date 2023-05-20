@@ -41,6 +41,8 @@ set(COMMON_SOURCES
         source/common/deserialize-utils.hpp
 
         source/common/utils.hpp
+        source/common/audioLibrary.hpp
+        source/common/audioLibrary.cpp
         
         source/common/shader/shader.hpp
         source/common/shader/shader.cpp
@@ -94,6 +96,8 @@ set(COMMON_SOURCES
         source/common/components/bullet.cpp
         source/common/components/enemy.hpp
         source/common/components/enemy.cpp
+        source/common/components/sound.hpp
+        source/common/components/sound.cpp
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/forward-renderer.cpp
@@ -118,6 +122,7 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
+        vendor/sfml/include
 )
 
 
@@ -139,9 +144,27 @@ set(STATES_SOURCES
         source/states/renderer-test-state.hpp
 )
 
+add_compile_definitions(SFML_STATIC)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/bin/openal32.dll
+        DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE})
+
+set(LIBS
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/r3p/lib/reactphysics3d.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/sfml-audio-s-d.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/sfml-system-s-d.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/openal32.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/flac.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/vorbisenc.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/vorbisfile.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/vorbis.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/ogg.lib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/lib/winmm.lib"
+)
+
 # For each example, we add an executable target
 # Each target compiles one example source file and the common & vendor source files
 # Then we link GLFW with each target
 add_executable(GAME_APPLICATION source/main.cpp ${STATES_SOURCES} ${COMMON_SOURCES} ${VENDOR_SOURCES})
-target_link_libraries(GAME_APPLICATION glfw "${CMAKE_CURRENT_SOURCE_DIR}/vendor/r3p/lib/reactphysics3d.lib")
+target_link_libraries(GAME_APPLICATION glfw ${LIBS})
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vendor/r3p/include")
