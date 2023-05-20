@@ -146,7 +146,7 @@ set(STATES_SOURCES
 
 add_compile_definitions(SFML_STATIC)
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/bin/openal32.dll
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/vendor/sfml/binary/openal32.dll
         DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE})
 
 set(LIBS
