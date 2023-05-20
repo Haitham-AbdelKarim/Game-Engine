@@ -43,7 +43,9 @@
 				"theWalkingDead": "assets/textures/theWalkingDead.png",
 				"tieFighter": "assets/textures/TieFighter_ImperialJunk_BaseColor.png",
 				"wing": "assets/textures/Wing_Wing_BaseColor.png",
-				"rocket": "assets/textures/Rocket.png"
+				"rocket": "assets/textures/Rocket.png",
+				"portal": "assets/textures/portal.png",
+				"mushroom": "assets/textures/mushroom.png"
 			},
 			"meshes": {
 				"cube": "assets/models/cube.obj",
@@ -54,7 +56,9 @@
 				"theWalkingDead": "assets/models/theWalkingDead.obj",
 				"tieFighter": "assets/models/tieFighter.obj",
 				"wing": "assets/models/wing.obj",
-				"rocket": "assets/models/rocket.obj"
+				"rocket": "assets/models/rocket.obj",
+				"portal": "assets/models/portal.obj",
+				"mushroom": "assets/models/mushroom.obj"
 			},
 			"samplers": {
 				"default": {},
@@ -226,11 +230,44 @@
 					"tint": [1, 1, 1, 1],
 					"texture": "rocket",
 					"sampler": "default"
+				},
+				"portal": {
+					"type": "textured",
+					"shader": "textured",
+					"pipelineState": {
+						"faceCulling": {
+							"enabled": false
+						},
+						"depthTesting": {
+							"enabled": true
+						}
+					},
+					"tint": [1, 1, 1, 1],
+					"texture": "portal",
+					"sampler": "default"
+				},
+				"mushroom": {
+					"type": "textured",
+					"shader": "textured",
+					"pipelineState": {
+						"faceCulling": {
+							"enabled": false
+						},
+						"depthTesting": {
+							"enabled": true
+						}
+					},
+					"tint": [1, 1, 1, 1],
+					"texture": "mushroom",
+					"sampler": "default"
 				}
 			},
 			"audios": {
 				"fast0": {
 					"path": "assets/audio/zombiesSounds/fast0.wav"
+				},
+				"slow0": {
+					"path": "assets/audio/zombiesSounds/slow0.wav"
 				},
 				"gun": {
 					"path": "assets/audio/gun.wav"
@@ -312,120 +349,67 @@
 					}
 				]
 			},
-			// {
-			// 	"rotation": [-45, 0, 0],
-			// 	"position": [0, 20, 0],
-			// 	"name": "enemy",
-
-			// 	"components": [
-			// 		{
-			// 			"type": "Mesh Renderer",
-			// 			"mesh": "theWalkingDead",
-			// 			"material": "theWalkingDead"
-			// 		},
-			// 		{
-			// 			"type": "Rigid Body",
-			// 			"collide": true,
-			// 			"collider Scale": [0.5, 0.5, 0.5]
-			// 		},
-			// 		{
-			// 			"type": "Follower",
-			// 			"target Name": "player",
-			// 			"speed": 2
-			// 		},
-			// 		{
-			// 			"type": "Enemy"
-			// 		}
-			// 		// {
-			// 		//     "type": "Movement",
-			// 		//     "linearVelocity": [0, 0.1, 0],
-			// 		//     "angularVelocity": [0, 45, 0]
-			// 		// }
-			// 	]
-			// },
 			{
-				"rotation": [-45, 0, 0],
-				"position": [0, 20, 0],
-				"name": "enemy Spawner",
-
+				"name": "ground",
+				"position": [0, -1, 0],
+				"rotation": [-90, 0, 0],
+				"scale": [1000, 1000, 1],
 				"components": [
 					{
-						"type": "Spawner",
-						"entity": {
-							"rotation": [-45, 0, 0],
-							"position": [0, 20, 0],
-							"name": "enemy",
-
-							"components": [
-								{
-									"type": "Mesh Renderer",
-									"mesh": "sphere",
-									"material": "glass"
-								},
-								{
-									"type": "Rigid Body",
-									"collide": true,
-									"collider Scale": [0.5, 0.5, 0.5]
-								},
-								{
-									"type": "Follower",
-									"target Name": "player"
-								},
-								{
-									"type": "Enemy"
-								}
-							]
-						}
+						"type": "Mesh Renderer",
+						"mesh": "plane",
+						"material": "mars"
+					},
+					{
+						"type": "Rigid Body",
+						"Rigid Body Type": "static",
+						"collide": true,
+						"collider Scale": [1000, 1000, 0.2]
 					}
 				]
 			},
 			{
-				"rotation": [-45, 0, 0],
-				"position": [0, 20, 0],
-				"name": "enemy Spawner",
-
+				"name": "mushroom",
+				"position": [0, 0, 10],
+				"rotation": [0, 0, 0],
+				"scale": [1, 1, 1],
 				"components": [
 					{
-						"type": "Spawner",
-						"entity": {
-							"rotation": [-45, 0, 0],
-							"position": [0, 20, 0],
-							"name": "enemy",
-
-							"components": [
-								{
-									"type": "Mesh Renderer",
-									"mesh": "cube",
-									"material": "grass"
-								},
-								{
-									"type": "Rigid Body",
-									"collide": true,
-									"collider Scale": [0.5, 0.5, 0.5]
-								},
-								{
-									"type": "Follower",
-									"target Name": "player"
-								},
-								{
-									"type": "Enemy"
-								}
-							]
-						}
+						"type": "Mesh Renderer",
+						"mesh": "mushroom",
+						"material": "mushroom"
+					},
+					{
+						"type": "Rigid Body",
+						"Rigid Body Type": "static",
+						"collide": true,
+						"collider Scale": [1, 1, 1]
 					}
 				]
 			},
 			{
-				"rotation": [-45, 0, 0],
-				"position": [0, 20, 0],
+				"position": [-60, 1, -125],
+				"rotation": [0, 90, 0],
+				"scale": [0.1, 0.1, 0.1],
 				"name": "enemy Spawner",
 
 				"components": [
 					{
+						"type": "Mesh Renderer",
+						"mesh": "portal",
+						"material": "portal"
+					},
+					{
+						"type": "Rigid Body",
+						"Rigid Body Type": "static",
+						"collide": false,
+						"collider Scale": [8, 20, 5]
+					},
+					{
 						"type": "Spawner",
 						"entity": {
-							"rotation": [0, 0, 0],
-							"position": [0, 20, 10],
+							"rotation": [0, 1, 0],
+							"position": [-60, 0, -125],
 							"scale": [2.5, 2.5, 2.5],
 							"name": "enemy",
 
@@ -458,98 +442,171 @@
 					}
 				]
 			},
-
 			{
-				"name": "ground",
-				"position": [0, -1, 0],
-				"rotation": [-90, 0, 0],
-				"scale": [1000, 1000, 1],
+				"position": [146, 1, -186],
+				"rotation": [0, 90, 0],
+				"scale": [0.1, 0.1, 0.1],
+				"name": "enemy Spawner",
+
 				"components": [
 					{
 						"type": "Mesh Renderer",
-						"mesh": "plane",
-						"material": "mars"
+						"mesh": "portal",
+						"material": "portal"
 					},
 					{
 						"type": "Rigid Body",
 						"Rigid Body Type": "static",
-						"collide": true,
-						"collider Scale": [1000, 1000, 0.2]
+						"collide": false,
+						"collider Scale": [8, 20, 5]
+					},
+					{
+						"type": "Spawner",
+						"entity": {
+							"rotation": [0, 1, 0],
+							"position": [146, 0, -186],
+							"scale": [2.5, 2.5, 2.5],
+							"name": "enemy",
+
+							"components": [
+								{
+									"type": "Mesh Renderer",
+									"mesh": "theWalkingDead",
+									"material": "theWalkingDead"
+								},
+								{
+									"type": "Rigid Body",
+									"collide": true,
+									"collider Scale": [0.5, 2, 0.5]
+								},
+								{
+									"type": "Follower",
+									"target Name": "player"
+								},
+								{
+									"type": "Enemy"
+								},
+								{
+									"type": "Sound",
+									"sound": "fast0",
+									"minDistance": 5,
+									"autoPlay": false
+								}
+							]
+						}
 					}
 				]
 			},
-			// {
-			// 	"position": [0, 4, 20],
-			// 	"rotation": [0, 0, 0],
-			// 	"scale": [20, 5, 1],
-			// 	"components": [
-			// 		{
-			// 			"type": "Mesh Renderer",
-			// 			"mesh": "plane",
-			// 			"material": "glass"
-			// 		},
-			// 		{
-			// 			"type": "Rigid Body",
-			// 			"Rigid Body Type": "static",
-			// 			"collide": true,
-			// 			"collider Scale": [20, 20, 0.1]
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	"position": [0, 4, -20],
-			// 	"rotation": [0, 0, 0],
-			// 	"scale": [20, 5, 1],
-			// 	"components": [
-			// 		{
-			// 			"type": "Mesh Renderer",
-			// 			"mesh": "plane",
-			// 			"material": "glass"
-			// 		},
-			// 		{
-			// 			"type": "Rigid Body",
-			// 			"Rigid Body Type": "static",
-			// 			"collide": true,
-			// 			"collider Scale": [20, 20, 0.1]
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	"position": [20, 4, 0],
-			// 	"rotation": [0, 90, 0],
-			// 	"scale": [20, 5, 1],
-			// 	"components": [
-			// 		{
-			// 			"type": "Mesh Renderer",
-			// 			"mesh": "plane",
-			// 			"material": "glass"
-			// 		},
-			// 		{
-			// 			"type": "Rigid Body",
-			// 			"Rigid Body Type": "static",
-			// 			"collide": true,
-			// 			"collider Scale": [20, 20, 0.1]
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	"position": [-20, 4, 0],
-			// 	"rotation": [0, 90, 0],
-			// 	"scale": [20, 5, 1],
-			// 	"components": [
-			// 		{
-			// 			"type": "Mesh Renderer",
-			// 			"mesh": "plane",
-			// 			"material": "glass"
-			// 		},
-			// 		{
-			// 			"type": "Rigid Body",
-			// 			"Rigid Body Type": "static",
-			// 			"collide": true,
-			// 			"collider Scale": [20, 20, 0.1]
-			// 		}
-			// 	]
-			// },
+			{
+				"position": [-167, 1, 65],
+				"rotation": [0, 90, 0],
+				"scale": [0.1, 0.1, 0.1],
+				"name": "enemy Spawner",
+
+				"components": [
+					{
+						"type": "Mesh Renderer",
+						"mesh": "portal",
+						"material": "portal"
+					},
+					{
+						"type": "Rigid Body",
+						"Rigid Body Type": "static",
+						"collide": false,
+						"collider Scale": [8, 20, 5]
+					},
+					{
+						"type": "Spawner",
+						"entity": {
+							"rotation": [0, 1, 0],
+							"position": [-167, 0, 65],
+							"scale": [2.5, 2.5, 2.5],
+							"name": "enemy",
+
+							"components": [
+								{
+									"type": "Mesh Renderer",
+									"mesh": "theWalkingDead",
+									"material": "theWalkingDead"
+								},
+								{
+									"type": "Rigid Body",
+									"collide": true,
+									"collider Scale": [0.5, 2, 0.5]
+								},
+								{
+									"type": "Follower",
+									"target Name": "player"
+								},
+								{
+									"type": "Enemy"
+								},
+								{
+									"type": "Sound",
+									"sound": "slow0",
+									"minDistance": 5,
+									"autoPlay": false
+								}
+							]
+						}
+					}
+				]
+			},
+			{
+				"position": [150, 1, 160],
+				"rotation": [0, 90, 0],
+				"scale": [0.1, 0.1, 0.1],
+				"name": "enemy Spawner",
+
+				"components": [
+					{
+						"type": "Mesh Renderer",
+						"mesh": "portal",
+						"material": "portal"
+					},
+					{
+						"type": "Rigid Body",
+						"Rigid Body Type": "static",
+						"collide": false,
+						"collider Scale": [8, 20, 5]
+					},
+					{
+						"type": "Spawner",
+						"entity": {
+							"rotation": [0, 0, 0],
+							"position": [150, 1, 160],
+							"scale": [2.5, 2.5, 2.5],
+							"name": "enemy",
+
+							"components": [
+								{
+									"type": "Mesh Renderer",
+									"mesh": "theWalkingDead",
+									"material": "theWalkingDead"
+								},
+								{
+									"type": "Rigid Body",
+									"collide": true,
+									"collider Scale": [0.5, 2, 0.5]
+								},
+								{
+									"type": "Follower",
+									"target Name": "player"
+								},
+								{
+									"type": "Enemy"
+								},
+								{
+									"type": "Sound",
+									"sound": "slow0",
+									"minDistance": 5,
+									"autoPlay": false
+								}
+							]
+						}
+					}
+				]
+			},
 			{
 				"name": "obstacle",
 				"position": [0, 1, 2],

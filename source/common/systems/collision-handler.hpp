@@ -35,6 +35,7 @@ public:
     auto bulletComponent = bullet->getComponent<BulletComponent>();
     if (enemyComponent && bulletComponent) {
       enemyComponent->health -= bulletComponent->damage;
+      bulletComponent->damage = 0;
     }
   }
 };

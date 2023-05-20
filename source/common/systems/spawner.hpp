@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../components/sound.hpp"
 #include "../components/spawner.hpp"
 #include "../ecs/world.hpp"
 
@@ -28,6 +29,8 @@ class SpawnerSystem {
   float timeBetweenRounds;
   bool roundFinished;
   int firstRoundstartTime;
+  int screamingEnemysCount;
+  int maxScreamingEnemysCount;
 
 public:
   // When a state enters, it should call this function and give it the
@@ -45,6 +48,8 @@ public:
     timeBetweenRounds = 15;
     roundFinished = false;
     firstRoundstartTime = 15;
+    screamingEnemysCount = 0;
+    maxScreamingEnemysCount = 2;
   }
 
   void decrementCurrentEnemyCount() { currentEnemyCount--; }
@@ -81,12 +86,31 @@ public:
         if (enemysSpawners.size()) {
           int index = (std::rand() % (enemysSpawners.size()));
           if (time > (enemysSpawners[index]->lastSpawn + spawnRate)) {
-            enemysSpawners[index]->spawn(world);
+            Entity *enemy = enemysSpawners[index]->spawn(world);
             enemysSpawners[index]->lastSpawn = time;
             spawnedEnemyCount++;
             currentEnemyCount++;
+            enemy->getComponent<EnemyComponent>()->health =
+                enemy->getComponent<EnemyComponent>()->health * round;
           }
         }
+      }
+    }
+    screamingEnemysCount = 0;
+    for (auto entity : world->getEntities()) {
+      if (auto soundComponent = entity->getComponent<SoundComponent>();
+          soundComponent) {
+        if (entity->name == "enemy") {
+          if (soundComponent->sound.getStatus() !=
+              sf::SoundSource::Status::Playing) {
+            soundComponent->play();
+            screamingEnemysCount++;
+          } else {
+            screamingEnemysCount++;
+          }
+        }
+        if (screamingEnemysCount == maxScreamingEnemysCount)
+          break;
       }
     }
     if (currentEnemyCount == 0 && spawnedEnemyCount != 0 && !roundFinished) {

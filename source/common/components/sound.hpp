@@ -9,9 +9,9 @@ namespace our {
 class SoundComponent : public Component {
 public:
   std::string soundName;
-  float volume = 100.0;
-  float minDistance = 5.0f;
-  float attenuation = 0.5f;
+  float volume = 50.0;
+  float minDistance = 4.0f;
+  float attenuation = 10.0f;
   float pitch = 1.0f;
   bool loop = true;
   bool autoPlay = true;

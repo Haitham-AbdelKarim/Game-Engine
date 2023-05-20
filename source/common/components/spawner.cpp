@@ -46,7 +46,7 @@ Entity *SpawnerComponent::spawn(World *world) {
     auto newSound = newEntity->addComponent<SoundComponent>();
     newSound->soundName = sound->soundName;
     newSound->setup();
-    newSound->play();
+    // newSound->play();
   }
   return newEntity;
 }
