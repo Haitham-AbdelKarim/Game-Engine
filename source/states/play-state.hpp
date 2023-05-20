@@ -2,6 +2,7 @@
 
 #include <application.hpp>
 
+#include <SFML/Audio.hpp>
 #include <asset-loader.hpp>
 #include <ecs/world.hpp>
 #include <imgui_impl/imgui_impl_opengl3.h>
@@ -18,7 +19,6 @@
 #include <systems/rigid-body.hpp>
 #include <systems/spawner.hpp>
 #include <utils.hpp>
-#include <SFML/Audio.hpp>
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State {
@@ -45,6 +45,7 @@ class Playstate : public our::State {
   reactphysics3d::PhysicsWorld *worldPhysics;
 
   void onInitialize() override {
+    round = 1;
     // First of all, we get the scene configuration from the app config
     auto &config = getApp()->getConfig()["scene"];
     // If we have assets in the scene config, we deserialize them
@@ -74,6 +75,8 @@ class Playstate : public our::State {
     std::string roundString = "Round " + std::to_string(round);
     drawList->AddText(ImVec2(25, 25), ImColor(1.0f, 0.0f, 0.0f),
                       roundString.c_str());
+    drawList->AddCircle(ImVec2((float)(size.x / 2.0), (float)(size.y / 2.0)),
+                        10.0, IM_COL32(255, 255, 255, 255), 100, 1.0f);
 
     ImGui::PopFont();
   }

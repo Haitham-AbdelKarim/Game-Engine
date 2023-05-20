@@ -18,21 +18,34 @@ namespace our {
 class SpawnerSystem {
   Application *app;          // The application in which the state runs
   bool mouse_locked = false; // Is the mouse locked
-  int round = 0;
-  int roundEnemyCount = 0;
-  int spawnedEnemyCount = 0;
-  int currentEnemyCount = 0;
-  float time = 0;
-  float spawnRate = 5;
-  float roundFinishTime = 0;
-  float timeBetweenRounds = 15;
-  bool roundFinished = false;
-  int firstRoundstartTime = 15;
+  int round;
+  int roundEnemyCount;
+  int spawnedEnemyCount;
+  int currentEnemyCount;
+  float time;
+  float spawnRate;
+  float roundFinishTime;
+  float timeBetweenRounds;
+  bool roundFinished;
+  int firstRoundstartTime;
 
 public:
   // When a state enters, it should call this function and give it the
   // pointer to the application
-  void enter(Application *app) { this->app = app; }
+  void enter(Application *app) {
+    this->app = app;
+    round = 0;
+    roundEnemyCount = 0;
+    roundEnemyCount = 0;
+    spawnedEnemyCount = 0;
+    currentEnemyCount = 0;
+    time = 0;
+    spawnRate = 5;
+    roundFinishTime = 0;
+    timeBetweenRounds = 15;
+    roundFinished = false;
+    firstRoundstartTime = 15;
+  }
 
   void decrementCurrentEnemyCount() { currentEnemyCount--; }
 

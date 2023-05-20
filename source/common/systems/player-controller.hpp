@@ -9,7 +9,7 @@
 
 #include "../application.hpp"
 
-#include <SFML/Audio.hpp>
+#include <audioLibrary.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/fast_trigonometry.hpp>
@@ -28,11 +28,15 @@ class PlayerControllerSystem {
   float time;
   float lastShot = 0;
   float fireRate = 0.5f;
+  sf::Sound gunShot;
 
 public:
-  // When a state enters, it should call this function and give it the pointer
-  // to the application
-  void enter(Application *app) { this->app = app; }
+  // When a state enters, it should call this function and give it the
+  // pointer to the application
+  void enter(Application *app) {
+    this->app = app;
+    gunShot.setBuffer(*AudioLibrary::getSound("gun"));
+  }
 
   // This should be called every frame to update all entities containing a
   // FreeCameraControllerComponent
@@ -178,6 +182,7 @@ public:
               player->getOwner()->getLocalToWorldMatrix());
           bulletdata->shotTime = time;
           lastShot = time;
+          gunShot.play();
         }
       }
     }

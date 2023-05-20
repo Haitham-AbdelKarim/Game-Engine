@@ -231,6 +231,9 @@
 			"audios": {
 				"fast0": {
 					"path": "assets/audio/zombiesSounds/fast0.wav"
+				},
+				"gun": {
+					"path": "assets/audio/gun.wav"
 				}
 			}
 		},
@@ -421,20 +424,21 @@
 					{
 						"type": "Spawner",
 						"entity": {
-							"rotation": [-45, 0, 0],
+							"rotation": [0, 0, 0],
 							"position": [0, 20, 10],
+							"scale": [2.5, 2.5, 2.5],
 							"name": "enemy",
 
 							"components": [
 								{
 									"type": "Mesh Renderer",
-									"mesh": "monkey",
-									"material": "monkey"
+									"mesh": "theWalkingDead",
+									"material": "theWalkingDead"
 								},
 								{
 									"type": "Rigid Body",
 									"collide": true,
-									"collider Scale": [0.5, 0.5, 0.5]
+									"collider Scale": [0.5, 2, 0.5]
 								},
 								{
 									"type": "Follower",

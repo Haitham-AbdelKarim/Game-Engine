@@ -50,6 +50,7 @@ public:
         }
         entity->localTransform.position =
             convert(rigidBody->rigidbody->getTransform().getPosition());
+        rigidBody->rigidbody->setAngularLockAxisFactor(rp3d::Vector3(0, 0, 0));
         // entity->localTransform.rotation +=
         //     deltaTime * movement->angularVelocity;
       }
