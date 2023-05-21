@@ -45,7 +45,7 @@ public:
                 convert(entity->getComponent<BulletComponent>()->direction) *
                 20);
             rigidBody->rigidbody->enableGravity(false);
-            rigidBody->rigidbody->setMass(0.1);
+            rigidBody->rigidbody->setMass((reactphysics3d::decimal)0.1);
           }
         }
         entity->localTransform.position =

@@ -142,6 +142,7 @@ set(STATES_SOURCES
         source/states/material-test-state.hpp
         source/states/entity-test-state.hpp
         source/states/renderer-test-state.hpp
+        source/states/game-over-state.hpp
 )
 
 add_compile_definitions(SFML_STATIC)

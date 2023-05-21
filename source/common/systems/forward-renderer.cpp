@@ -1,9 +1,10 @@
 #include "forward-renderer.hpp"
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
+#include <components/player.hpp>
+#include <string>
 
 namespace our {
-
 void ForwardRenderer::initialize(glm::ivec2 windowSize,
                                  const nlohmann::json &config) {
   // First, we store the window size for later use
@@ -112,6 +113,30 @@ void ForwardRenderer::initialize(glm::ivec2 windowSize,
     // The default options are fine but we don't need to interact with the depth
     // buffer so it is more performant to disable the depth mask
     postprocessMaterial->pipelineState.depthMask = false;
+
+    // Create a post processing material
+    postprocessSampler = new Sampler();
+    postprocessSampler->set(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    postprocessSampler->set(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    postprocessSampler->set(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    postprocessSampler->set(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    // Create the post processing shader
+    postprocessShader = new ShaderProgram();
+    postprocessShader->attach("assets/shaders/fullscreen.vert",
+                              GL_VERTEX_SHADER);
+    postprocessShader->attach("assets/shaders/postprocess/rededges.frag",
+                              GL_FRAGMENT_SHADER);
+    postprocessShader->link();
+
+    // Create a post processing material
+    HitPostprocessMaterial = new TexturedMaterial();
+    HitPostprocessMaterial->shader = postprocessShader;
+    HitPostprocessMaterial->texture = colorTarget;
+    HitPostprocessMaterial->sampler = postprocessSampler;
+    // The default options are fine but we don't need to interact with the depth
+    // buffer so it is more performant to disable the depth mask
+    HitPostprocessMaterial->pipelineState.depthMask = false;
   }
 }
 
@@ -136,9 +161,8 @@ void ForwardRenderer::destroy() {
   }
 }
 
-void ForwardRenderer::render(World *world,
-
-                             Light *light_list) {
+void ForwardRenderer::render(World *world, std::vector<our::Light> light_list,
+                             float deltaTime) {
   // First of all, we search for a camera and for all the mesh renderers
   CameraComponent *camera = nullptr;
   opaqueCommands.clear();
@@ -226,11 +250,28 @@ void ForwardRenderer::render(World *world,
     our::Material *material = x.material;          // A pointer to the material
     our::ShaderProgram *shader = material->shader; // A pointer to the shader
     our::LitMaterial *litMaterial = dynamic_cast<our::LitMaterial *>(material);
+    material->setup(); // setup the material
     if (litMaterial) {
-      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition),
-                         light_list);
+      for (int i = 0; i < light_list.size(); i++) {
+        std::string uf_loc = "lights[" + std::to_string(i) + "]";
+        shader->set((uf_loc) + ".type", light_list[i].type);
+        shader->set((uf_loc) + ".color", light_list[i].color);
+        shader->set((uf_loc) + ".position", light_list[i].position);
+        shader->set((uf_loc) + ".direction", light_list[i].direction);
+        shader->set((uf_loc) + ".attenuation", light_list[i].attenuation);
+        shader->set((uf_loc) + ".cone_angles", light_list[i].cone_angles);
+      }
+      shader->set("light_count", (int)light_list.size());
+      shader->set("sky.top", glm::vec3(0.0f, 0.1f, 0.5f));
+      shader->set("sky.horizon", glm::vec3(0.3f, 0.3f, 0.3f));
+      shader->set("sky.bottom", glm::vec3(0.1f, 0.1f, 0.1f));
+      glm::mat4 M = x.localToWorld;
+      glm::mat4 M_IT = glm::transpose(glm::inverse(M));
+      shader->set("M", M);
+      shader->set("M_IT", M_IT);
+      shader->set("VP", VP);
+      shader->set("camera_position", glm::vec3(cameraPosition));
     } else {
-      material->setup(); // setup the material
       shader->set("transform",
                   (VP * x.localToWorld)); // set the transform to the shader
     }
@@ -271,11 +312,28 @@ void ForwardRenderer::render(World *world,
     our::Material *material = x.material;          // A pointer to the material
     our::ShaderProgram *shader = material->shader; // A pointer to the shader
     our::LitMaterial *litMaterial = dynamic_cast<our::LitMaterial *>(material);
+    material->setup(); // setup the material
     if (litMaterial) {
-      litMaterial->setup(x.localToWorld, VP, glm::vec3(cameraPosition),
-                         light_list);
+      for (int i = 0; i < light_list.size(); i++) {
+        std::string uf_loc = "lights[" + std::to_string(i) + "]";
+        shader->set((uf_loc) + ".type", light_list[i].type);
+        shader->set((uf_loc) + ".color", light_list[i].color);
+        shader->set((uf_loc) + ".position", light_list[i].position);
+        shader->set((uf_loc) + ".direction", light_list[i].direction);
+        shader->set((uf_loc) + ".attenuation", light_list[i].attenuation);
+        shader->set((uf_loc) + ".cone_angles", light_list[i].cone_angles);
+      }
+      shader->set("light_count", (int)light_list.size());
+      shader->set("sky.top", glm::vec3(0.0f, 0.1f, 0.5f));
+      shader->set("sky.horizon", glm::vec3(0.3f, 0.3f, 0.3f));
+      shader->set("sky.bottom", glm::vec3(0.1f, 0.1f, 0.1f));
+      glm::mat4 M = x.localToWorld;
+      glm::mat4 M_IT = glm::transpose(glm::inverse(M));
+      shader->set("M", M);
+      shader->set("M_IT", M_IT);
+      shader->set("VP", VP);
+      shader->set("camera_position", glm::vec3(cameraPosition));
     } else {
-      material->setup(); // setup the material
       shader->set("transform",
                   (VP * x.localToWorld)); // set the transform to the shader
     }
@@ -290,14 +348,20 @@ void ForwardRenderer::render(World *world,
     // TODO: (Req 11) Setup the postprocess material and draw the fullscreen
     // triangle
     // setup
-    postprocessMaterial->setup();
+    int health =
+        camera->getOwner()->getComponent<PlayerComponent>()->currentHealth;
+    if (health <
+        camera->getOwner()->getComponent<PlayerComponent>()->maxHealth) {
+      HitPostprocessMaterial->setup();
+      HitPostprocessMaterial->shader->set("health", (float)health);
+    } else {
+      postprocessMaterial->setup();
+    }
     // bind the postProcess
     glBindVertexArray(postProcessVertexArray);
     // draw
     glDrawArrays(GL_TRIANGLES, 0, 3);
   }
-
-  delete[] light_list;
 }
 
 } // namespace our

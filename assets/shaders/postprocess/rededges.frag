@@ -3,6 +3,8 @@
 // The texture holding the scene pixels
 uniform sampler2D tex;
 
+uniform float health;
+
 // Read "assets/shaders/fullscreen.vert" to know what "tex_coord" holds;
 in vec2 tex_coord;
 
@@ -32,8 +34,8 @@ void main(){
      float fogDensity = clamp((gl_FragCoord.z - 2.0) * 2.0, 0.2, 0.2); 
     
     // Apply fog by blending scene color with fog color based on density.
-    float R= (abs(ndc_coord.x) +abs(ndc_coord.y))/2;
-    vec4 fogColor = mix(vec4(R,0.09, 0.09,0.0), scene_color*2, fogDensity);
+    float R= (abs(ndc_coord.x) +abs(ndc_coord.y))/(health+0.0000000001);
+    vec4 fogColor = mix(vec4(R,0.09, 0.09,0.0), scene_color*3, fogDensity);
 
     // Apply vignette effect by dividing scene color by (1 + len_sq)
     frag_color = fogColor / (1.0 + len_sq);

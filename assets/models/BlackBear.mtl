@@ -1,0 +1,17 @@
+newmtl pSphere1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd BlackBear_tx.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 4.31
+newmtl tay1:pasted__pasted__pasted__pSphere7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 4.31

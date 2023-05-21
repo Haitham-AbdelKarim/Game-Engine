@@ -24,24 +24,26 @@ class LightSystem {
 public:
   // This should be called every frame to update all entities containing a
   // MovementComponent.
-  Light *getlights(World *world, float deltaTime) {
+  std::vector<Light> getlights(World *world, float deltaTime) {
     int lightCount = 0;
-    Light *light_list = new Light[MAX_LIGHTS];
+    std::vector<Light> light_list;
     // For each entity in the world
+    Light lightData;
     for (auto entity : world->getEntities()) {
       // Get the movement component if it exists
       LightComponent *light = entity->getComponent<LightComponent>();
       // If the movement component exists
       if (light) {
-        light_list[lightCount].color = light->color;
-        light_list[lightCount].attenuation = light->attenuation;
-        light_list[lightCount].cone_angles = light->cone_angles;
-        light_list[lightCount].type = light->lightType;
-        light_list[lightCount].position =
+        lightData.color = light->color;
+        lightData.attenuation = light->attenuation;
+        lightData.cone_angles = light->cone_angles;
+        lightData.type = light->lightType;
+        lightData.position =
             entity->getLocalToWorldMatrix() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
         ;
-        light_list[lightCount].direction = light->direction;
+        lightData.direction = light->direction;
         lightCount++;
+        light_list.push_back(lightData);
       }
     }
     return (light_list);

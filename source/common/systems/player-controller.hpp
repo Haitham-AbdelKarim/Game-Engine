@@ -182,6 +182,7 @@ public:
               player->getOwner()->getLocalToWorldMatrix());
           bulletdata->shotTime = time;
           lastShot = time;
+          bulletdata->damage = player->damage;
           gunShot.play();
         }
       }
@@ -203,7 +204,10 @@ public:
       rigidbody->rigidbody->setLinearVelocity(temp);
     }
     if (player->currentHealth == 0) {
-      app->changeState("menu");
+      app->changeState("gameOver");
+    }
+    if (time > player->lastHit + 10) {
+      player->currentHealth = player->maxHealth;
     }
     glm::vec3 playerPosition =
         glm::vec4(player->getOwner()->getLocalToWorldMatrix() *

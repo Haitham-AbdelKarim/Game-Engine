@@ -69,16 +69,8 @@ void TexturedMaterial::deserialize(const nlohmann::json &data) {
   sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
 }
 
-void LitMaterial::setup(glm::mat4 transform, glm::mat4 VP,
-                        glm::vec3 cameraPosition, Light *light_list) const {
+void LitMaterial::setup() const {
   TintedMaterial::setup();
-  glm::mat4 M = transform;
-  glm::mat4 M_IT = glm::transpose(glm::inverse(M));
-
-  shader->set("M", M);
-  shader->set("M_IT", M_IT);
-  shader->set("VP", VP);
-  shader->set("camera_position", cameraPosition);
 
   glActiveTexture(GL_TEXTURE1);
   albedo->bind();
@@ -104,20 +96,6 @@ void LitMaterial::setup(glm::mat4 transform, glm::mat4 VP,
   emission->bind();
   sampler->bind(5);
   shader->set("material.emissive", 5);
-
-  for (int i = 0; i < 1; i++) {
-    std::string uf_loc = "lights[" + std::to_string(i) + "]";
-    shader->set((uf_loc) + ".type", light_list[i].type);
-    shader->set((uf_loc) + ".color", light_list[i].color);
-    shader->set((uf_loc) + ".position", light_list[i].position);
-    shader->set((uf_loc) + ".direction", light_list[i].direction);
-    shader->set((uf_loc) + ".attenuation", light_list[i].attenuation);
-    shader->set((uf_loc) + ".cone_angles", light_list[i].cone_angles);
-  }
-  shader->set("light_count", 1);
-  shader->set("sky.top", glm::vec3(0.0f, 0.1f, 0.5f));
-  shader->set("sky.horizon", glm::vec3(0.3f, 0.3f, 0.3f));
-  shader->set("sky.bottom", glm::vec3(0.1f, 0.1f, 0.1f));
 }
 
 // This function read the material data from a json object

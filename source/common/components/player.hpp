@@ -26,6 +26,8 @@ public:
       5.0f; // A multiplier for the positionSensitivity if "Left Shift" is held.
   int maxHealth = 4;
   int currentHealth = maxHealth;
+  float damage = 100;
+  float lastHit = 0;
   // The ID of this component type is "Player"
   bool onTheGround = true;
   static std::string getID() { return "Player"; }

@@ -109,7 +109,7 @@ void AssetLoader<AudioLibrary>::deserialize(const nlohmann::json &data) {
       std::string path = desc.value("path", "");
       std::string type = desc.value("type", "sound");
       if (type == "music") {
-        AudioLibrary::addSound(path, name);
+        AudioLibrary::addMusic(path, name);
       } else {
         AudioLibrary::addSound(path, name);
       }

@@ -146,18 +146,6 @@ class Menustate : public our::State {
     buttons[1].size = {400.0f, 33.0f};
     buttons[1].action = [this]() { this->getApp()->close(); };
 
-    // sf::Sound sound;
-    // sf::SoundBuffer soundBuffer;
-    // soundBuffer.loadFromFile("fast0.wav");
-    // sound.setPitch(1.0f);
-    // sound.setVolume(7.0f);
-    // sound.setBuffer(soundBuffer);
-    // sound.setMinDistance(5.0f);
-    // sound.setAttenuation(0.5f);
-    // sound.setPosition(0, 40.0f, 0);
-    // sound.setLoop(true);
-    // sound.play();
-
     music = new sf::Music;
     music->openFromFile("assets/audio/Damned.ogg");
     music->setPitch(1.0f);
@@ -165,16 +153,6 @@ class Menustate : public our::State {
     music->setLoop(true);
     music->play();
 
-    //   while (music->getStatus() == sf::Music::Playing) {
-    //     // Leave some CPU time for other processes
-    //     sf::sleep(sf::milliseconds(100));
-
-    //     // Display the playing position
-    //     std::cout << "\rPlaying... " << music->getPlayingOffset().asSeconds()
-    //               << " sec        ";
-    //     std::cout << std::flush;
-    //   }
-    //   std::cout << std::endl << std::endl;
   }
 
   void onDraw(double deltaTime) override {

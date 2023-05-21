@@ -46,15 +46,17 @@ class ForwardRenderer {
   GLuint postprocessFrameBuffer, postProcessVertexArray;
   Texture2D *colorTarget, *depthTarget;
   TexturedMaterial *postprocessMaterial;
+  TexturedMaterial *HitPostprocessMaterial = nullptr;
 
 public:
-  // Initialize the renderer including the sky and the Postprocessing objects.
-  // windowSize is the width & height of the window (in pixels).
+  // Initialize the renderer including the sky and the Postprocessing
+  // objects. windowSize is the width & height of the window (in pixels).
   void initialize(glm::ivec2 windowSize, const nlohmann::json &config);
   // Clean up the renderer
   void destroy();
   // This function should be called every frame to draw the given world
-  void render(World *world, Light *light_list);
+  void render(World *world, std::vector<our::Light> light_list,
+              float deltaTime);
 };
 
 } // namespace our

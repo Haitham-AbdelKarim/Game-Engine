@@ -2,11 +2,11 @@
 
 #include <application.hpp>
 
-#include <SFML/Audio.hpp>
+#include "audioLibrary.hpp"
+#include <algorithm>
 #include <asset-loader.hpp>
 #include <ecs/world.hpp>
 #include <imgui_impl/imgui_impl_opengl3.h>
-#include <iostream>
 #include <systems/bullet.hpp>
 #include <systems/enemy.hpp>
 #include <systems/follower.hpp>
@@ -67,6 +67,7 @@ class Playstate : public our::State {
     worldPhysics = physicsCommon.createPhysicsWorld();
     worldPhysics->setEventListener(&physicsEventsListener);
     enemySystem.setSpawner(&spawnerSystem);
+    physicsEventsListener.setspawner(&spawnerSystem);
   }
   void onImmediateGui() override {
     ImGui::GetFont()->Scale = 3.0f;
@@ -83,7 +84,8 @@ class Playstate : public our::State {
   void onDraw(double deltaTime) override {
     // Here, we just run a bunch of systems to control the world logic
     movementSystem.update(&world, (float)deltaTime);
-    our::Light *light_list = lightSystem.getlights(&world, (float)deltaTime);
+    std::vector<our::Light> light_list =
+        lightSystem.getlights(&world, (float)deltaTime);
     rigidBodySystem.update(&world, (float)deltaTime, worldPhysics,
                            &physicsCommon);
     cameraController.update(&world, (float)deltaTime);
@@ -96,8 +98,8 @@ class Playstate : public our::State {
     enemySystem.update(&world, (float)deltaTime);
 
     // And finally we use the renderer system to draw the scene
-    renderer.render(&world, light_list);
-    worldPhysics->update(timeStep);
+    renderer.render(&world, light_list, (float)deltaTime);
+    worldPhysics->update((reactphysics3d::decimal)timeStep);
     // Get a reference to the keyboard object
     auto &keyboard = getApp()->getKeyboard();
 
@@ -117,6 +119,7 @@ class Playstate : public our::State {
     spawnerSystem.exit();
     // Clear the world
     world.clear();
+    our::AudioLibrary::clear();
     // and we delete all the loaded assets to free memory on the RAM and the
     // VRAM
     our::clearAllAssets();
