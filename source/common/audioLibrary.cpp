@@ -32,6 +32,8 @@ void AudioLibrary::clear() {
        i != AudioLibrary::musicMap.end(); ++i) {
     delete i->second;
   }
+  AudioLibrary::soundMap.clear();
+  AudioLibrary::musicMap.clear();
 }
 
 } // namespace our

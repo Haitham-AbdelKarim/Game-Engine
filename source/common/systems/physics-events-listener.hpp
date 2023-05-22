@@ -98,6 +98,15 @@ public:
     } else if ((name1 == "bullet" && name2 == "hodaBear") ||
                (name2 == "bullet" && name1 == "hodaBear")) {
       return Bullet_HodaBear;
+    } else if ((name1 == "player" && name2 == "bear") ||
+               (name2 == "player" && name1 == "bear")) {
+      return Player_Ground;
+    } else if ((name1 == "player" && name2 == "teadyBear") ||
+               (name2 == "player" && name1 == "teadyBear")) {
+      return Player_Ground;
+    } else if ((name1 == "player" && name2 == "hodaBear") ||
+               (name2 == "player" && name1 == "hodaBear")) {
+      return Player_Ground;
     } else {
       return none;
     }

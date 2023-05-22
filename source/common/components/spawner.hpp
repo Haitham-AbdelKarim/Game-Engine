@@ -15,6 +15,7 @@ public:
   Entity *spawn(World *world);
   // Reads linearVelocity & angularVelocity from the given json object
   void deserialize(const nlohmann::json &data) override;
+  ~SpawnerComponent() { delete entity; }
 };
 
 } // namespace our
